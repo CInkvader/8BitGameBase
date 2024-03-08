@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_8BitGameBase"
         xmlns:UserControls="clr-namespace:_8BitGameBase.View.UserControls"
-        
+
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000">
+        Title="8BitGuesser" Height="650" Width="1000"
+        MinWidth="1000" MinHeight="650"
+        Background="#FFD9E2E4">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -15,15 +17,25 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <UniformGrid Grid.Row="1" Rows="1" Columns="8" Height="150" Width="900">
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-            <UserControls:BitButton/>
-        </UniformGrid>
+        <Grid x:Name="GridMenu" Grid.Row="1" Visibility="Visible">
+            <UserControls:PlayButton x:Name="BtnPlay"/>
+        </Grid>
+
+        <Grid x:Name="StpGame" Grid.Row="1" Visibility="Collapsed">
+            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Height="50" Width="300" Margin="20" TextAlignment="Center"
+                       FontSize="35" Foreground="#FF235246"/>
+            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Top"
+                       Height="50" Width="100" Margin="20" TextAlignment="Center"
+                       FontSize="35" Foreground="#FF235246"/>
+            <StackPanel>
+                <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" VerticalAlignment="Top"
+                   Width="200" HorizontalAlignment="Center" Margin="0 150 0 0" FontSize="50" Foreground="#FF235246"/>
+                <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
+                     Height="150" Width="900" Margin="0 0 0 0" VerticalAlignment="Top">
+                    <!-- Buttons set trough code in InitializeButtons() -->
+                </UniformGrid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

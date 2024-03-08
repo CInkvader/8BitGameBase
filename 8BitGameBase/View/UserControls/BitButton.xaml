@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:_8BitGameBase.View.UserControls"
+             d:DataContext="{d:DesignInstance Type=local:BitButton}"
+             
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100">
     <Grid>
         <Button x:Name="BtnBit" Style="{StaticResource btnDefaultStyle}"
-                Content="0" MinWidth="100" MinHeight="100" Height="100" Width="100"/>
+                Content="{Binding BtnContent}" Tag="{Binding BtnTag}"
+                
+                MinWidth="100" MinHeight="100" Height="100" Width="100" Background="#FF8DB59A" Foreground="#FF163832"/>
     </Grid>
 </UserControl>
