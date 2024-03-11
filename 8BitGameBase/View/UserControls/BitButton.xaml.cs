@@ -17,21 +17,21 @@ namespace _8BitGameBase.View.UserControls
         }
 
         private string _btnContent = "Play Game";
-        private int _btnTag = 0;
+        private int _bitValue = 0;
 
         public string BtnContent
         {
             get { return _btnContent; }
             set { _btnContent = value; OnPropertyChanged(); }
         }
-        public int BtnTag
+        public int BitValue
         {
-            get { return _btnTag; }
-            set { _btnTag = value; OnPropertyChanged(); }
+            get { return _bitValue; }
+            set { _bitValue = value; OnPropertyChanged(); }
         }
         public int BtnBitValue
         {
-            get { return int.Parse(BtnContent) * BtnTag; }
+            get { return int.Parse(BtnContent) * BitValue; }
         }
 
         public void SetBit()

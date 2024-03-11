@@ -1,0 +1,35 @@
+﻿<Page x:Class="_8BitGameBase.View.Screens.MainGame"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_8BitGameBase.View.Screens"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" MinWidth="1000" MinHeight="650"
+      Title="MainGame"
+      Background="#FFD9E2E4">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="GridGame" Grid.Row="1">
+            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
+               Height="50" Width="300" Margin="20" TextAlignment="Center"
+               FontSize="35" Foreground="#FF235246"/>
+            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Top"
+               Height="50" Width="100" Margin="20" TextAlignment="Center"
+               FontSize="35" Foreground="#FF235246"/>
+            <StackPanel>
+                <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" VerticalAlignment="Top"
+           Width="200" HorizontalAlignment="Center" Margin="0 150 0 0" FontSize="50" Foreground="#FF235246"/>
+                <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
+             Height="150" Width="900" Margin="0 0 0 0" VerticalAlignment="Top">
+                    <!-- Buttons set trough code in InitializeButtons() -->
+                </UniformGrid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

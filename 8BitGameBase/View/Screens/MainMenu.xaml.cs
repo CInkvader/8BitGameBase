@@ -1,9 +1,11 @@
-﻿using _8BitGameBase.View.Screens;
-using _8BitGameBase.View.UserControls;
-using System.Collections.ObjectModel;
+﻿using _8BitGameBase.View.UserControls;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,27 +17,32 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace _8BitGameBase
+namespace _8BitGameBase.View.Screens
 {
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainMenu : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private static Frame _frame = new();
 
-        public MainWindow()
+        public MainMenu()
         {
             DataContext = this;
-
+            _btnContent = "Start Game";
             InitializeComponent();
-
-            _frame = MainFrame;
-            _frame.Content = new MainMenu();
         }
 
-        public static void ChangeScreen(Page page)
+        private string _btnContent = string.Empty;
+
+        public string BtnContent
         {
-            _frame.Content = page;
+            get { return _btnContent; }
+            set { _btnContent = value; OnPropertyChanged(); }
         }
+
+        private void BtnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeScreen(new MainGame());
+        }
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
