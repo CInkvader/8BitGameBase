@@ -90,7 +90,7 @@ namespace _8BitGameBase.View.Screens
         public string TbGameRound
         {
             get { return _tbGameRound; }
-            set { _tbGameRound = value; OnPropertyChanged(); }
+            set { _tbGameRound = "Round " + value; OnPropertyChanged(); }
         }
 
         private void CheckAnswer()
@@ -110,8 +110,9 @@ namespace _8BitGameBase.View.Screens
             ResetBitButtons();
             TbDecimalQuestion = _random.Next(1, 256).ToString();
 
-            TbGameRound = (int.Parse(TbGameRound) + 1).ToString();
-            int round = int.Parse(TbGameRound);
+            // Same as substring
+            int round = int.Parse(TbGameRound[(TbGameRound.IndexOf(' ') + 1)..]) + 1;
+            TbGameRound = round.ToString();
 
             if (round > 1 && round < 12)
             {
@@ -128,15 +129,13 @@ namespace _8BitGameBase.View.Screens
         }
         private void StopGame()
         {
-            ResetBitButtons();
-            TbGameRound = "0";
-            TbGameTimer = "30";
-            TbGameTimer = "0";
-            TbDecimalQuestion = "0";
-
             _timer.Stop();
 
-            MainWindow.ChangeScreen(new MainMenu());
+            foreach(BitButton button in _buttons)
+            {
+                button.BtnBit.IsEnabled = false;
+            }
+            LosePrompt.Visibility = Visibility.Visible;
         }
 
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
