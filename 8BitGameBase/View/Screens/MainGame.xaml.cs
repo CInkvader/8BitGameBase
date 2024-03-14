@@ -1,8 +1,10 @@
-﻿using _8BitGameBase.View.UserControls;
+﻿using _8BitGameBase.Backend;
+using _8BitGameBase.View.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Printing;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -29,6 +32,8 @@ namespace _8BitGameBase.View.Screens
 
         private int _bitAnswer = 0;
         private int _roundStartTime = 30;
+        private int _currentRound = 0;
+        private int _playerScore = 0;
 
         private string _tbDecimalQuestion = string.Empty;
         private string _tbGameTimer = string.Empty;
@@ -47,7 +52,9 @@ namespace _8BitGameBase.View.Screens
             _buttons = [];
             _tbDecimalQuestion = string.Empty;
             _bitAnswer = 0;
+
             TbGameRound = "0";
+            PlayerScore = 0;
 
             InitializeComponent();
             InitializeButtons();
@@ -71,10 +78,18 @@ namespace _8BitGameBase.View.Screens
                 BitButton button = new BitButton();
                 _buttons.Add(button);
                 _buttons[i].BtnBit.Click += BtnBitClicked;
+                _buttons[i].BtnBit.MouseEnter += BtnBitMouseEnter;
+                _buttons[i].BtnBit.MouseLeave += BtnBitMouseLeave;
                 _buttons[i].BitValue = (j /= i == 0 ? 1 : 2);
 
                 ugButtons.Children.Add(button);
             }
+
+            LosePrompt.BtnRetry.Click += BtnRetry_Click;
+            LosePrompt.BtnMenu.Click += BtnMenu_Click;
+            LosePrompt.BtnSaveRecord.Click += BtnSaveRecord_Click;
+            SavePrompt.BtnSavePromptBack.Click += BtnSavePromptBack_Click;
+            SavePrompt.BtnSavePromptSave.Click += BtnSavePromptSave_Click;
         }
 
         public string TbDecimalQuestion
@@ -90,13 +105,24 @@ namespace _8BitGameBase.View.Screens
         public string TbGameRound
         {
             get { return _tbGameRound; }
-            set { _tbGameRound = "Round " + value; OnPropertyChanged(); }
+            set
+            {
+                _currentRound = int.Parse(value);
+                _tbGameRound = "Round " + value;
+                OnPropertyChanged();
+            }
         }
-
+        public int PlayerScore
+        {
+            get { return _playerScore; }
+            set { _playerScore = value; OnPropertyChanged(); }
+        }
+        
         private void CheckAnswer()
         {
             if (_bitAnswer.ToString() == _tbDecimalQuestion)
             {
+                CalculateScore();
                 NewRound();
             }
         }
@@ -110,15 +136,17 @@ namespace _8BitGameBase.View.Screens
             ResetBitButtons();
             TbDecimalQuestion = _random.Next(1, 256).ToString();
 
-            // Same as substring
-            int round = int.Parse(TbGameRound[(TbGameRound.IndexOf(' ') + 1)..]) + 1;
-            TbGameRound = round.ToString();
+            TbGameRound = (++_currentRound).ToString();
 
-            if (round > 1 && round < 12)
+            if (_currentRound > 1 && _currentRound < 12)
             {
                 _roundStartTime -= 2;
             }
             TbGameTimer = _roundStartTime.ToString();
+        }
+        private void CalculateScore()
+        {
+            PlayerScore += (int)(50 * (1 + (((double)_currentRound - 1) / 10) + (double.Parse(TbGameTimer) / _roundStartTime)));
         }
         private void ResetBitButtons()
         {
@@ -131,13 +159,14 @@ namespace _8BitGameBase.View.Screens
         {
             _timer.Stop();
 
-            foreach(BitButton button in _buttons)
-            {
-                button.BtnBit.IsEnabled = false;
-            }
+            GridGame.IsEnabled = false;
+            AnimateLosePrompt();
+        }
+        private void AnimateLosePrompt()
+        {
             LosePrompt.Visibility = Visibility.Visible;
         }
-
+        
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
         {
             if (sender == null)
@@ -156,6 +185,104 @@ namespace _8BitGameBase.View.Screens
             _bitAnswer = bitValue;
             CheckAnswer();
         }
+        private void BtnBitMouseEnter(object? sender, MouseEventArgs e)
+        {
+            Button? button = sender as Button;
+            if (button == null)
+            {
+                return;
+            }
+
+            int originalDimension = 100;
+            int newDimension = 105;
+
+            DoubleAnimation heightAnimation = new()
+            {
+                From = originalDimension,
+                To = newDimension,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+            DoubleAnimation widthAnimation = new()
+            {
+                From = originalDimension,
+                To = newDimension,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+
+            Storyboard.SetTarget(heightAnimation, button);
+            Storyboard.SetTargetProperty(heightAnimation, new PropertyPath("(FrameworkElement.Height)"));
+            Storyboard.SetTarget(widthAnimation, button);
+            Storyboard.SetTargetProperty(widthAnimation, new PropertyPath("(FrameworkElement.Width)"));
+
+            Storyboard storyboard = new();
+            storyboard.Children.Add(heightAnimation);
+            storyboard.Children.Add(widthAnimation);
+
+            storyboard.Begin();
+        }
+        private void BtnBitMouseLeave(object? sender, MouseEventArgs e)
+        {
+            Button? button = sender as Button;
+            if (button == null)
+            {
+                return;
+            }
+
+            int originalDimension = 105;
+            int newDimension = 100;
+
+            DoubleAnimation heightAnimation = new()
+            {
+                From = originalDimension,
+                To = newDimension,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+            DoubleAnimation widthAnimation = new()
+            {
+                From = originalDimension,
+                To = newDimension,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+
+            Storyboard.SetTarget(heightAnimation, button);
+            Storyboard.SetTargetProperty(heightAnimation, new PropertyPath("(FrameworkElement.Height)"));
+            Storyboard.SetTarget(widthAnimation, button);
+            Storyboard.SetTargetProperty(widthAnimation, new PropertyPath("(FrameworkElement.Width)"));
+
+            Storyboard storyboard = new();
+            storyboard.Children.Add(heightAnimation);
+            storyboard.Children.Add(widthAnimation);
+
+            storyboard.Begin();
+        }
+
+        private void BtnRetry_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeScreen(new MainGame());
+        }
+        private void BtnSaveRecord_Click(object sender, RoutedEventArgs e)
+        {
+            LosePrompt.Visibility = Visibility.Collapsed;
+            SavePrompt.Visibility = Visibility.Visible;
+        }
+        private void BtnMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeScreen(new MainMenu());
+        }
+
+        private void BtnSavePromptBack_Click(object sender, RoutedEventArgs e)
+        {
+            SavePrompt.NameInput = string.Empty;
+
+            SavePrompt.Visibility = Visibility.Collapsed;
+            LosePrompt.Visibility = Visibility.Visible;
+        }
+        private void BtnSavePromptSave_Click(object sender, RoutedEventArgs e)
+        {
+            LeaderboardManager.AddToLeaderboard(SavePrompt.NameInput, PlayerScore);
+            MainWindow.ChangeScreen(new MainMenu());
+        }
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

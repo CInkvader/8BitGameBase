@@ -3,17 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
              xmlns:local="clr-namespace:_8BitGameBase.View.UserControls"
+             xmlns:screens="clr-namespace:_8BitGameBase.View.Screens"
+             
+             d:DataContext="{d:DesignInstance Type=screens:MainGame}"
+             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"  MinWidth="1000" MinHeight="650">
-    <Grid Background="#BFD9E2E4">
+             d:DesignHeight="450" d:DesignWidth="800"
+             MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
+             Background="{StaticResource GameBackground}">
+    
+    <Grid x:Name="GridPrompt">
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="YOU LOSER" FontSize="100" TextAlignment="Center" Foreground="#FF235246" Margin="0 0 0 50"/>
+            <TextBlock Text="YOU LOSE" FontSize="100" TextAlignment="Center" Foreground="#FF235246" Margin="0"/>
+            <StackPanel Margin="0 30 0 50" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Score:" FontSize="30" TextAlignment="Left" Foreground="#FF235246" Margin="0 0 10 0"/>
+                <TextBlock Width="auto" Text="{Binding PlayerScore}" FontSize="30" TextAlignment="Left" Foreground="#FF235246"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnRetry" Style="{StaticResource btnPlayStyle}" Content="Retry"
-                        Width="220" Height="100" Click="BtnRetry_Click" Margin="0 0 50 0"/>
-                <Button x:Name="BtnContinue" Style="{StaticResource btnPlayStyle}" Content="Continue"
-                        Width="220" Height="100" Click="BtnContinue_Click" Margin="50 0 0 0"/>
+                <Button x:Name="BtnRetry" Style="{StaticResource btnGreenStyle}" Content="Retry"
+                        Width="220" Height="90" Margin="0 0 0 30"/>
+                <Button x:Name="BtnSaveRecord" Style="{StaticResource btnGreenStyle}" Content="Save score"
+                        Width="250" Height="90" Margin="50 0 50 30"/>
+                <Button x:Name="BtnMenu" Style="{StaticResource btnGreenStyle}" Content="Back to Menu"
+                        Width="220" Height="90" Margin="0 0 0 30"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -8,9 +8,9 @@
         
         mc:Ignorable="d"
         Title="8BitGuesser" Height="650" Width="1000"
-        MinWidth="1000" MinHeight="650"
-        Background="#FFD9E2E4">
-    <Grid>
+        MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
+        Background="{StaticResource GameBackground}" Closing="Window_Closing">
+    <Grid KeyboardNavigation.TabNavigation="None">
         <Frame x:Name="MainFrame" Grid.Row="0" Grid.RowSpan="3" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using _8BitGameBase.View.Screens;
+﻿using _8BitGameBase.Backend;
+using _8BitGameBase.View.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +22,6 @@ namespace _8BitGameBase.View.UserControls
         public GameLosePrompt()
         {
             InitializeComponent();
-        }
-
-        private void BtnRetry_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.ChangeScreen(new MainGame());
-        }
-
-        private void BtnContinue_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.ChangeScreen(new MainMenu());
         }
     }
 }

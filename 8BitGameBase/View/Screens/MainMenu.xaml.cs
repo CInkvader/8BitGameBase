@@ -1,4 +1,5 @@
-﻿using _8BitGameBase.View.UserControls;
+﻿using _8BitGameBase.Backend;
+using _8BitGameBase.View.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,20 +23,29 @@ namespace _8BitGameBase.View.Screens
     public partial class MainMenu : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        private string _btnPlayContent = string.Empty;
+        private string _btnLeaderboardContent = string.Empty;
+
 
         public MainMenu()
         {
             DataContext = this;
-            _btnContent = "Start Game";
+            _btnPlayContent = "Start Game";
+            _btnLeaderboardContent = "Leaderboard";
             InitializeComponent();
+            LeaderboardManager.InitializeLeaderboard();
         }
 
-        private string _btnContent = string.Empty;
-
-        public string BtnContent
+        public string BtnPlayContent
         {
-            get { return _btnContent; }
-            set { _btnContent = value; OnPropertyChanged(); }
+            get { return _btnPlayContent; }
+            set { _btnPlayContent = value; OnPropertyChanged(); }
+        }
+
+        public string BtnLeaderboardContent
+        {
+            get { return _btnLeaderboardContent; }
+            set { _btnLeaderboardContent = value; OnPropertyChanged(); }
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
@@ -46,6 +56,11 @@ namespace _8BitGameBase.View.Screens
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void BtnLeaderboard_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeScreen(new Leaderboard());
         }
     }
 }

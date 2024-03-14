@@ -1,4 +1,5 @@
-﻿using _8BitGameBase.View.Screens;
+﻿using _8BitGameBase.Backend;
+using _8BitGameBase.View.Screens;
 using _8BitGameBase.View.UserControls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,18 +21,19 @@ namespace _8BitGameBase
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
         private static Frame _frame = new();
 
         public MainWindow()
         {
             DataContext = this;
 
+            LeaderboardManager.InitializeLeaderboard();
             InitializeComponent();
 
             _frame = MainFrame;
             _frame.Content = new MainMenu();
         }
-
         public static void ChangeScreen(Page page)
         {
             _frame.Content = page;
@@ -39,6 +41,11 @@ namespace _8BitGameBase
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
