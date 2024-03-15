@@ -50,7 +50,7 @@ namespace _8BitGameBase.View.Screens
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeScreen(new MainGame());
+            MainWindow.ChangeScreen(new MainGame(this));
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -60,7 +60,7 @@ namespace _8BitGameBase.View.Screens
 
         private void BtnLeaderboard_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeScreen(new Leaderboard());
+            MainWindow.ChangeScreen(new Leaderboard(this));
         }
     }
 }

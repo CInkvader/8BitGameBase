@@ -12,6 +12,11 @@
       MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
       Background="{StaticResource GameBackground}"
       Title="MainMenu">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource ArcadeFont}"/>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -21,11 +26,13 @@
 
         <StackPanel x:Name="GridMenu" Grid.Row="1" VerticalAlignment="Center">
             <TextBlock VerticalAlignment="Top" Text="8 BIT GUESSER" TextAlignment="Center" FontSize="100"
-                       Foreground="#FF235246"/>
-            <Button x:Name="BtnPlay" Style="{StaticResource btnGreenStyle}"
+                       Foreground="{StaticResource DefaultForegroundDark}"/>
+
+            <Button x:Name="BtnPlay" Style="{StaticResource btnGreenStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="{Binding BtnPlayContent}" Height="90" Width="250"
                     Click="BtnPlay_Click" Margin="0 25 0 0"/>
-            <Button x:Name="BtnLeaderboard" Style="{StaticResource btnGreenStyle}"
+            
+            <Button x:Name="BtnLeaderboard" Style="{StaticResource btnGreenStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="{Binding BtnLeaderboardContent}" Height="90" Width="250"
                     Click="BtnLeaderboard_Click" Margin="0 25 0 0"/>
         </StackPanel>

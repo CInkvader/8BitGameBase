@@ -34,24 +34,24 @@
                             Background="{TemplateBinding Background}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="15">
+                            CornerRadius="0">
                         <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#72235246"/>
+                            <Setter Property="Background" Value="#FFD48160"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="4"/>
-        <Setter Property="Background" Value="#3F235246"/>
-        <Setter Property="Foreground" Value="#FF235246"/>
-        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#EA906C"/>
+        <Setter Property="Foreground" Value="#2B2A4C"/>
+        <Setter Property="FontSize" Value="30"/>
         <Setter Property="Height" Value="50"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="#2B2A4C"/>
+        <Setter Property="BorderThickness" Value="5"/>
     </Style>
 </ResourceDictionary>

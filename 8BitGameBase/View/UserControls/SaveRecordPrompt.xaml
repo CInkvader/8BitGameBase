@@ -11,23 +11,27 @@
              Background="{StaticResource GameBackground}">
     <Grid>
         <Button x:Name="BtnSavePromptBack" Style="{StaticResource btnGreenStyle}" Content="Back"
-                Height="70" FontSize="25" Width="100"
+                Height="70" FontSize="25" Width="100" FontFamily="{StaticResource ArcadeFont}"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50"/>
         
         <StackPanel Margin="0 50 0 50" VerticalAlignment="Center">
-            <TextBlock Text="Enter your username" HorizontalAlignment="Center" FontSize="50"
+            <TextBlock Text="Enter your username" HorizontalAlignment="Center"
+                       FontSize="70" FontFamily="{StaticResource ArcadeFont}"
                        Foreground="{StaticResource DefaultForegroundDark}"/>
 
             <Grid Width="470" Height="60" Margin="50">
-                <Border Background="White" BorderThickness="0" CornerRadius="30"/>
+                <Border Background="White" BorderThickness="0" CornerRadius="0"/>
                 <TextBox x:Name="NameEntry" FontSize="35" Width="420"
                          Text="{Binding NameInput, UpdateSourceTrigger=PropertyChanged}"
+                         Foreground="{StaticResource DefaultForegroundDark}"
+                         FontFamily="{StaticResource ArcadeFont}"
                          Background="Transparent" BorderThickness="0"
                          HorizontalAlignment="Center" VerticalAlignment="Center"
                          TextChanged="NameEntry_TextChanged" PreviewTextInput="NameEntry_PreviewTextInput"/>
             </Grid>
 
-            <Button x:Name="BtnSavePromptSave" Height="90" Width="200" Style="{StaticResource btnGreenStyle}" Content="Save"/>
+            <Button x:Name="BtnSavePromptSave" Height="90" Width="200" FontFamily="{StaticResource ArcadeFont}"
+                    Style="{StaticResource btnGreenStyle}" Content="Save"/>
         </StackPanel>
     </Grid>
 </UserControl>

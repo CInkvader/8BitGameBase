@@ -1,5 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="GameBackground">#FFD1E8D5</SolidColorBrush>
-    <SolidColorBrush x:Key="DefaultForegroundDark">#FF235246</SolidColorBrush>
+    <SolidColorBrush x:Key="GameBackground">transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultForegroundLight">#EEE2DE</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultColorLight">#EA906C</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultColorMedium">#B31312</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultColorDark">#2B2A4C</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultForegroundDark">#2B2A4C</SolidColorBrush>
 </ResourceDictionary>

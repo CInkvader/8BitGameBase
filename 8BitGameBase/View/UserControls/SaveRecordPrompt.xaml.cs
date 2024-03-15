@@ -21,8 +21,8 @@ namespace _8BitGameBase.View.UserControls
     public partial class SaveRecordPrompt : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private string _nameInput = string.Empty;
 
+        private string _nameInput = string.Empty;
         public string NameInput
         {
             get { return _nameInput; }
@@ -33,11 +33,6 @@ namespace _8BitGameBase.View.UserControls
         {
             DataContext = this;
             InitializeComponent();
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void NameEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -52,7 +47,6 @@ namespace _8BitGameBase.View.UserControls
                 e.Handled = true;
             }
         }
-
         private void NameEntry_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             char input = e.Text.ToUpper()[0];
@@ -61,5 +55,11 @@ namespace _8BitGameBase.View.UserControls
                 e.Handled = true;
             }
         }
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

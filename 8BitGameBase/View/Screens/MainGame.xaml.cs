@@ -25,6 +25,7 @@ namespace _8BitGameBase.View.Screens
     public partial class MainGame : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly object? _previousPage = null;
 
         private Random _random = new();
         private DispatcherTimer _timer = new();
@@ -39,8 +40,9 @@ namespace _8BitGameBase.View.Screens
         private string _tbGameTimer = string.Empty;
         private string _tbGameRound = string.Empty;
 
-        public MainGame()
+        public MainGame(object previousPage)
         {
+            _previousPage = previousPage ?? new Menu();
             DataContext = this;
 
             _timer = new()
@@ -68,7 +70,7 @@ namespace _8BitGameBase.View.Screens
 
             if (time == 0)
             {
-                StopGame();
+                GameFinish();
             }
         }
         private void InitializeButtons()
@@ -84,12 +86,6 @@ namespace _8BitGameBase.View.Screens
 
                 ugButtons.Children.Add(button);
             }
-
-            LosePrompt.BtnRetry.Click += BtnRetry_Click;
-            LosePrompt.BtnMenu.Click += BtnMenu_Click;
-            LosePrompt.BtnSaveRecord.Click += BtnSaveRecord_Click;
-            SavePrompt.BtnSavePromptBack.Click += BtnSavePromptBack_Click;
-            SavePrompt.BtnSavePromptSave.Click += BtnSavePromptSave_Click;
         }
 
         public string TbDecimalQuestion
@@ -155,18 +151,16 @@ namespace _8BitGameBase.View.Screens
                 button.BtnContent = "0";
             }
         }
-        private void StopGame()
+        private void GameFinish()
         {
             _timer.Stop();
+            if (_previousPage != null)
+            {
+                Page previousPage = (Page)_previousPage;
+                MainWindow.ChangeScreen(new GameLosePrompt(previousPage, PlayerScore));
+            }
+        }
 
-            GridGame.IsEnabled = false;
-            AnimateLosePrompt();
-        }
-        private void AnimateLosePrompt()
-        {
-            LosePrompt.Visibility = Visibility.Visible;
-        }
-        
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
         {
             if (sender == null)
@@ -200,13 +194,13 @@ namespace _8BitGameBase.View.Screens
             {
                 From = originalDimension,
                 To = newDimension,
-                Duration = TimeSpan.FromSeconds(0.1)
+                Duration = TimeSpan.FromSeconds(0)
             };
             DoubleAnimation widthAnimation = new()
             {
                 From = originalDimension,
                 To = newDimension,
-                Duration = TimeSpan.FromSeconds(0.1)
+                Duration = TimeSpan.FromSeconds(0)
             };
 
             Storyboard.SetTarget(heightAnimation, button);
@@ -235,13 +229,13 @@ namespace _8BitGameBase.View.Screens
             {
                 From = originalDimension,
                 To = newDimension,
-                Duration = TimeSpan.FromSeconds(0.1)
+                Duration = TimeSpan.FromSeconds(0)
             };
             DoubleAnimation widthAnimation = new()
             {
                 From = originalDimension,
                 To = newDimension,
-                Duration = TimeSpan.FromSeconds(0.1)
+                Duration = TimeSpan.FromSeconds(0)
             };
 
             Storyboard.SetTarget(heightAnimation, button);
@@ -254,33 +248,6 @@ namespace _8BitGameBase.View.Screens
             storyboard.Children.Add(widthAnimation);
 
             storyboard.Begin();
-        }
-
-        private void BtnRetry_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.ChangeScreen(new MainGame());
-        }
-        private void BtnSaveRecord_Click(object sender, RoutedEventArgs e)
-        {
-            LosePrompt.Visibility = Visibility.Collapsed;
-            SavePrompt.Visibility = Visibility.Visible;
-        }
-        private void BtnMenu_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.ChangeScreen(new MainMenu());
-        }
-
-        private void BtnSavePromptBack_Click(object sender, RoutedEventArgs e)
-        {
-            SavePrompt.NameInput = string.Empty;
-
-            SavePrompt.Visibility = Visibility.Collapsed;
-            LosePrompt.Visibility = Visibility.Visible;
-        }
-        private void BtnSavePromptSave_Click(object sender, RoutedEventArgs e)
-        {
-            LeaderboardManager.AddToLeaderboard(SavePrompt.NameInput, PlayerScore);
-            MainWindow.ChangeScreen(new MainMenu());
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
