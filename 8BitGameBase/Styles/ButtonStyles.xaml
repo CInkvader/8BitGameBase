@@ -33,7 +33,7 @@
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <Style x:Key="btnGreenStyle" TargetType="Button">
+    <Style x:Key="btnMainStyle" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -63,6 +63,46 @@
         <Setter Property="FontSize" Value="30"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style x:Key="btnBackStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="btnBorder"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    CornerRadius="0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF4D2665"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#FF3E1E52"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Background" Value="#FF5C2E78"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="20"/>
+        
+        <Setter Property="Height" Value="80"/>
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="Margin" Value="107 71 50 50"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        
+        <Setter Property="BorderBrush" Value="#FFB5B5B5"/>
+        <Setter Property="BorderThickness" Value="3"/>
     </Style>
 
     <Style x:Key="btnTitleBarStyle" TargetType="Button">

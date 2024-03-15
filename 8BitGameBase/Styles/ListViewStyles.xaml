@@ -1,30 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--<Style x:Key="lvLeaderboard" TargetType="ListView">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListView}">
-                    <Border Width="{TemplateBinding Width}"
-                            Height="{TemplateBinding Height}"
-                            Background="{TemplateBinding Background}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="15">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-    </Style>-->
-    
     <Style x:Key="lvItemLeaderboard" TargetType="ListViewItem">
         <Setter Property="Template">
             <Setter.Value>

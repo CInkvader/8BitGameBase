@@ -32,7 +32,7 @@ namespace _8BitGameBase.View.Screens
         private readonly List<BitButton> _buttons = [];
 
         private int _bitAnswer = 0;
-        private int _roundStartTime = 30;
+        private int _roundStartTime = 60;
         private int _currentRound = 0;
         private int _playerScore = 0;
 
@@ -136,7 +136,7 @@ namespace _8BitGameBase.View.Screens
 
             if (_currentRound > 1 && _currentRound < 12)
             {
-                _roundStartTime -= 2;
+                _roundStartTime -= 4;
             }
             TbGameTimer = _roundStartTime.ToString();
         }

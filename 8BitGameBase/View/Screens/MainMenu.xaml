@@ -28,11 +28,11 @@
             <TextBlock VerticalAlignment="Top" Text="8 BIT GUESSER" TextAlignment="Center" FontSize="100"
                        Foreground="{StaticResource DefaultForegroundDark}"/>
 
-            <Button x:Name="BtnPlay" Style="{StaticResource btnGreenStyle}" FontFamily="{StaticResource ArcadeFont}"
+            <Button x:Name="BtnPlay" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="{Binding BtnPlayContent}" Height="80" Width="230"
                     Click="BtnPlay_Click" Margin="0 25 0 0"/>
             
-            <Button x:Name="BtnLeaderboard" Style="{StaticResource btnGreenStyle}" FontFamily="{StaticResource ArcadeFont}"
+            <Button x:Name="BtnLeaderboard" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="{Binding BtnLeaderboardContent}" Height="80" Width="230"
                     Click="BtnLeaderboard_Click" Margin="0 25 0 0"/>
         </StackPanel>
