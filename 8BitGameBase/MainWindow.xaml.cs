@@ -65,11 +65,11 @@ namespace _8BitGameBase
                 WindowState = WindowState.Normal;
                 BtnMinimizeSymbol = "🗖";
             }
-            else
-            {
-                WindowState = WindowState.Maximized;
-                BtnMinimizeSymbol = "🗗";
-            }
+            //else
+            //{
+            //    WindowState = WindowState.Maximized;
+            //    BtnMinimizeSymbol = "🗗";
+            //}
         }
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {

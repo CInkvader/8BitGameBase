@@ -7,13 +7,13 @@
              d:DataContext="{d:DesignInstance Type=local:BitButton}"
              
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="120">
+             d:DesignHeight="120" d:DesignWidth="90">
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
             <Button x:Name="BtnBit" Style="{StaticResource btnDefaultStyle}"
                     Content="{Binding BtnContent}" Tag="{Binding BitValue}" FontFamily="{StaticResource ArcadeFont}"
-                    MinWidth="100" MinHeight="100" Height="100" Width="100" Background="{StaticResource DefaultColorMedium}"
-                    Foreground="{StaticResource DefaultForegroundLight}"/>
+                    MinWidth="70" MinHeight="70" Height="70" Width="70" Background="{StaticResource DefaultColorMedium}"
+                    Foreground="White"/>
             <Border BorderBrush="{StaticResource DefaultColorDark}" BorderThickness="2" Margin="10" />
             
             <TextBlock x:Name="TbBitValue" Height="25" Text="{Binding BitValue}" FontSize="30"

@@ -187,8 +187,8 @@ namespace _8BitGameBase.View.Screens
                 return;
             }
 
-            int originalDimension = 100;
-            int newDimension = 105;
+            int originalDimension = 70;
+            int newDimension = 75;
 
             DoubleAnimation heightAnimation = new()
             {
@@ -222,8 +222,8 @@ namespace _8BitGameBase.View.Screens
                 return;
             }
 
-            int originalDimension = 105;
-            int newDimension = 100;
+            int originalDimension = 75;
+            int newDimension = 70;
 
             DoubleAnimation heightAnimation = new()
             {

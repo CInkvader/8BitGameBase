@@ -10,6 +10,8 @@
       Background="{StaticResource GameBackground}"
       Title="GameOptions">
     <Grid>
-        
+        <Button x:Name="BtnBack" Style="{StaticResource btnGreenStyle}" Background="{StaticResource DefaultColorMedium}" BorderThickness="3"
+                Content="Back" VerticalAlignment="Top" FontFamily="{StaticResource ArcadeFont}"  BorderBrush="#FFB5B5B5"
+                Height="80" FontSize="20" Width="60" HorizontalAlignment="Left"  Margin="107 71 50 50"/>
     </Grid>
 </Page>

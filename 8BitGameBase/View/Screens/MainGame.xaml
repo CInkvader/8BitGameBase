@@ -24,30 +24,30 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="True">
-            <TextBlock Text="{Binding PlayerScore}" HorizontalAlignment="Left" VerticalAlignment="Top"
-                       Height="50" Width="100" Margin="60 20 20 20" TextAlignment="Left"
-                       FontSize="35" Foreground="{StaticResource DefaultForegroundDark}"/>
+            <TextBlock Text="Score" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="0 0 90 70" TextAlignment="Center"
+                       FontSize="30" Foreground="{StaticResource DefaultForegroundDark}"/>
+            <TextBlock Text="{Binding PlayerScore}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="0 0 90 35" TextAlignment="Center"
+                       FontSize="30" Foreground="{StaticResource DefaultForegroundDark}"/>
 
-            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
-               Height="60" Width="300" Margin="20" TextAlignment="Center"
-               FontSize="60" Foreground="{StaticResource DefaultColorMedium}"/>
+            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+               Height="60" Width="300" Margin="35 0 0 35" TextAlignment="Center"
+               FontSize="50" Foreground="{StaticResource DefaultColorMedium}"/>
 
-            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Top"
-               Height="50" Width="100" Margin="20 20 60 20" TextAlignment="Right"
-               FontSize="35" Foreground="{StaticResource DefaultForegroundDark}"/>
+            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+               Height="50" Width="100" Margin="0 0 90 255" TextAlignment="Center"
+               FontSize="50" Foreground="{StaticResource DefaultForegroundDark}"/>
 
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" Margin="0 0 0 50">
                 <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" Width="200"
-                           HorizontalAlignment="Center" Margin="0 0 0 0" FontSize="50" Foreground="{StaticResource DefaultForegroundDark}"/>
+                           HorizontalAlignment="Center" Margin="0" FontSize="70" Foreground="{StaticResource DefaultForegroundDark}"/>
 
                 <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
-                             Height="150" Width="900" Margin="0 50 0 0">
+                             Height="150" Width="750" Margin="0">
                     <!-- Buttons set trough code in InitializeButtons() -->
                 </UniformGrid>
             </StackPanel>
         </Grid>
-        <Border x:Name="BdTimeBar" Grid.Row="1" HorizontalAlignment="Left"
-                Width="{Binding ActualWidth, ElementName=mainWindow}"
-                VerticalAlignment="Bottom" Height="60" Background="{StaticResource DefaultColorDark}"/>
     </Grid>
 </Page>

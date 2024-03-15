@@ -2,5 +2,5 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:Double x:Key="minWindowHeight">900</sys:Double>
-    <sys:Double x:Key="minWindowWidth">1000</sys:Double>
+    <sys:Double x:Key="minWindowWidth">1300</sys:Double>
 </ResourceDictionary>

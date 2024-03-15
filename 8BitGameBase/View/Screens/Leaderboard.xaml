@@ -10,16 +10,16 @@
       Background="{StaticResource GameBackground}"
       Title="Leaderboard">
     <Grid>
-        <Button x:Name="BtnBack" Style="{StaticResource btnGreenStyle}" Content="Back" VerticalAlignment="Top" FontFamily="{StaticResource ArcadeFont}"
-                Height="70" FontSize="25" Width="100" Click="BtnBack_Click" HorizontalAlignment="Left" Margin="50"/>
+        <Button x:Name="BtnBack" Style="{StaticResource btnGreenStyle}" Background="{StaticResource DefaultColorMedium}" BorderThickness="3"
+                Content="Back" VerticalAlignment="Top" FontFamily="{StaticResource ArcadeFont}"  BorderBrush="#FFB5B5B5"
+                Height="80" FontSize="20" Width="60" Click="BtnBack_Click" HorizontalAlignment="Left" Margin="107 71 50 50"/>
 
-        <TextBlock Text="TOP 10 PLAYERS" Foreground="{StaticResource DefaultForegroundDark}" HorizontalAlignment="Center" VerticalAlignment="Top"
-                   FontSize="70" Height="70" Margin="0 50 0 0" FontFamily="{StaticResource ArcadeFont}"/>
-
-        <StackPanel Margin="0 150 0 50" Width="900">
-            <Border Height="650" Margin="50 15 50 15" Background="Transparent" BorderThickness="5" BorderBrush="{StaticResource DefaultColorDark}">
+        <StackPanel Margin="0 120 0 50" Width="900">
+            <TextBlock Text="TOP 10 PLAYERS" Foreground="{StaticResource DefaultForegroundDark}" HorizontalAlignment="Center" VerticalAlignment="Top"
+           FontSize="70" Height="70" Margin="10" FontFamily="{StaticResource ArcadeFont}"/>
+            <Border Height="650" Margin="50 -10 50 15" Background="Transparent" BorderThickness="0" BorderBrush="{StaticResource DefaultColorDark}">
                 <StackPanel>
-                    <ListView x:Name="lvLeaderboard" Background="Transparent" BorderThickness="0" Height="auto" Width="800" Padding="20"
+                    <ListView x:Name="lvLeaderboard" Background="Transparent" BorderThickness="0" Height="auto" Width="800" Padding="0"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     </ListView>
                 </StackPanel>

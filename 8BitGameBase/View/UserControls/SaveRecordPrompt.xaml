@@ -10,10 +10,10 @@
              MinHeight="{StaticResource minWindowHeight}"
              Background="{StaticResource GameBackground}">
     <Grid>
-        <Button x:Name="BtnSavePromptBack" Style="{StaticResource btnGreenStyle}" Content="Back"
-                Height="70" FontSize="25" Width="100" FontFamily="{StaticResource ArcadeFont}"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50"/>
-        
+        <Button x:Name="BtnSavePromptBack" Style="{StaticResource btnGreenStyle}" Background="{StaticResource DefaultColorMedium}" BorderThickness="3"
+                Content="Back" VerticalAlignment="Top" FontFamily="{StaticResource ArcadeFont}"  BorderBrush="#FFB5B5B5"
+                Height="80" FontSize="20" Width="60" HorizontalAlignment="Left"  Margin="107 71 50 50"/>
+
         <StackPanel Margin="0 50 0 50" VerticalAlignment="Center">
             <TextBlock Text="Enter your username" HorizontalAlignment="Center"
                        FontSize="70" FontFamily="{StaticResource ArcadeFont}"

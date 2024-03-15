@@ -40,18 +40,18 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFD48160"/>
+                            <Setter Property="Background" Value="#FF5C2E78"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="5"/>
-        <Setter Property="Background" Value="#EA906C"/>
-        <Setter Property="Foreground" Value="#2B2A4C"/>
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="Height" Value="50"/>
-        <Setter Property="BorderBrush" Value="#2B2A4C"/>
+        <Setter Property="Margin" Value="60 5 60 5"/>
+        <Setter Property="Background" Value="#FF5C2E78"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="BorderBrush" Value="#FF5C2E78"/>
         <Setter Property="BorderThickness" Value="5"/>
     </Style>
 </ResourceDictionary>

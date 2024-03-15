@@ -19,7 +19,7 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <StackPanel x:Name="stpLosePrompt" VerticalAlignment="Center">
+        <StackPanel x:Name="stpLosePrompt" VerticalAlignment="Center" Margin="0 0 0 50">
             <TextBlock Text="YOU LOSE" FontSize="125" TextAlignment="Center" Foreground="{StaticResource DefaultForegroundDark}" Margin="0"/>
             
             <StackPanel Margin="0 30 0 50" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -29,11 +29,11 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="BtnRetry" Style="{StaticResource btnGreenStyle}" Content="Retry" FontFamily="{StaticResource ArcadeFont}"
-                    Width="220" Height="90" Margin="0 0 0 30" Click="BtnRetry_Click"/>
+                    Width="200" Height="90" Margin="0 0 0 30" Click="BtnRetry_Click"/>
                 <Button x:Name="BtnSaveRecord" Style="{StaticResource btnGreenStyle}" Content="Save score" FontFamily="{StaticResource ArcadeFont}"
-                    Width="250" Height="90" Margin="50 0 50 30" Click="BtnSaveRecord_Click"/>
+                    Width="200" Height="90" Margin="30 0 30 30" Click="BtnSaveRecord_Click"/>
                 <Button x:Name="BtnMenu" Style="{StaticResource btnGreenStyle}" Content="Back to Menu" FontFamily="{StaticResource ArcadeFont}"
-                    Width="220" Height="90" Margin="0 0 0 30" Click="BtnMenu_Click"/>
+                    Width="200" Height="90" Margin="0 0 0 30" Click="BtnMenu_Click"/>
             </StackPanel>
         </StackPanel>
 
