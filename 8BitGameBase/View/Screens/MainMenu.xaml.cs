@@ -20,47 +20,32 @@ using System.Windows.Threading;
 
 namespace _8BitGameBase.View.Screens
 {
-    public partial class MainMenu : Page, INotifyPropertyChanged
+    public partial class MainMenu : Page
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private string _btnPlayContent = string.Empty;
-        private string _btnLeaderboardContent = string.Empty;
-
-
         public MainMenu()
         {
             DataContext = this;
-            _btnPlayContent = "Start Game";
-            _btnLeaderboardContent = "Leaderboard";
+
             InitializeComponent();
             LeaderboardManager.InitializeLeaderboard();
         }
 
-        public string BtnPlayContent
-        {
-            get { return _btnPlayContent; }
-            set { _btnPlayContent = value; OnPropertyChanged(); }
-        }
-
-        public string BtnLeaderboardContent
-        {
-            get { return _btnLeaderboardContent; }
-            set { _btnLeaderboardContent = value; OnPropertyChanged(); }
-        }
-
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeScreen(new MainGame(this));
+            MainWindow.ChangeScreen(new DifficultySelection(this));
         }
-
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void BtnLeaderboard_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.ChangeScreen(new Leaderboard(this));
+        }
+        private void BtnOptions_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            parentWindow?.Close();
         }
     }
 }

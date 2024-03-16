@@ -1,0 +1,43 @@
+﻿<Page x:Class="_8BitGameBase.View.Screens.DifficultySelection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_8BitGameBase.View.Screens"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      MinWidth="{StaticResource FrameWidth}" MinHeight="{StaticResource FrameHeight}"
+      Title="DifficultySelection">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource ArcadeFont}"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Button x:Name="BtnDifficultyBack" Style="{StaticResource btnBackStyle}" Content="Back" FontFamily="{StaticResource ArcadeFont}" Click="BtnDifficultyBack_Click"/>
+
+        <StackPanel VerticalAlignment="Center" Margin="0 0 0 70">
+            <TextBlock Text="SELECT DIFFICULTY" Width="700" FontSize="80" TextAlignment="Center" TextWrapping="Wrap"
+               Foreground="{StaticResource DefaultForegroundLight}" Margin="0"/>
+
+            <StackPanel Margin="0 0 0 10" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Multiplier - " FontSize="40" TextAlignment="Left" Foreground="{StaticResource DefaultForegroundBright}" Margin="0 0 10 0"/>
+                <TextBlock Width="auto" Text="{Binding TbMultiplier}" FontSize="40" TextAlignment="Left" Foreground="{StaticResource DefaultForegroundBright}"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Height="280">
+                <Button x:Name="BtnEasy" Style="{StaticResource btnMainStyle}" Content="EASY" FontFamily="{StaticResource ArcadeFont}"
+                Width="200" Height="50" Margin="0 10 0 20" Tag="1" Click="BtnDiffculty_Click"/>
+
+                <Button x:Name="BtnMedium" Style="{StaticResource btnMainStyle}" Content="NORMAL" FontFamily="{StaticResource ArcadeFont}"
+                Width="200" Height="50" Margin="30 0 30 20" Tag="2" Click="BtnDiffculty_Click"/>
+
+                <Button x:Name="BtnHard" Style="{StaticResource btnMainStyle}" Content="HARD" FontFamily="{StaticResource ArcadeFont}"
+                Width="200" Height="50" Margin="0 0 0 20" Tag="3" Click="BtnDiffculty_Click"/>
+
+                <Button x:Name="BtnExtreme" Style="{StaticResource btnMainStyle}" Content="EXTREME" FontFamily="{StaticResource ArcadeFont}"
+                Width="200" Height="50" Margin="0" Tag="4" Click="BtnDiffculty_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

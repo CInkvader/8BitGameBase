@@ -1,9 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
     <SolidColorBrush x:Key="GameBackground">transparent</SolidColorBrush>
-    <SolidColorBrush x:Key="DefaultForegroundLight">#EEE2DE</SolidColorBrush>
-    <SolidColorBrush x:Key="DefaultColorLight">#FF5C2E78</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultForegroundLight">white</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultColorLight">white</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColorMedium">#FF5C2E78</SolidColorBrush>
-    <SolidColorBrush x:Key="DefaultColorDark">white</SolidColorBrush>
-    <SolidColorBrush x:Key="DefaultForegroundDark">white</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultForegroundBright">#FFFFA800</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="DefaultColorDark">white</SolidColorBrush>-->
+    <!--<SolidColorBrush x:Key="DefaultForegroundDark">white</SolidColorBrush>-->
+
+    <SolidColorBrush x:Key="TitleBarMinimizedColor">#FF5C2E78</SolidColorBrush>
+    <SolidColorBrush x:Key="TitleBarMaximizedColor">black</SolidColorBrush>
 </ResourceDictionary>

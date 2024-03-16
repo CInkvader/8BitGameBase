@@ -60,6 +60,5 @@ namespace _8BitGameBase.View.UserControls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

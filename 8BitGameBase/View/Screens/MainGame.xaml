@@ -9,7 +9,7 @@
       
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="900"
-      MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
+      MinHeight="{StaticResource FrameHeight}" MinWidth="{StaticResource FrameWidth}"
       Background="{StaticResource GameBackground}"
       Title="MainGame" Name="mainWindow">
     <Page.Resources>
@@ -24,24 +24,33 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="True">
-            <TextBlock Text="Score" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                       Height="50" Width="100" Margin="0 0 90 70" TextAlignment="Center"
-                       FontSize="30" Foreground="{StaticResource DefaultForegroundDark}"/>
-            <TextBlock Text="{Binding PlayerScore}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                       Height="50" Width="100" Margin="0 0 90 35" TextAlignment="Center"
-                       FontSize="30" Foreground="{StaticResource DefaultForegroundDark}"/>
+            <Button x:Name="BtnMainGameBack" Style="{StaticResource btnBackStyle}" Content="Back"
+                    FontFamily="{StaticResource ArcadeFont}" Click="BtnMainGameBack_Click"/>
 
-            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="0 0 90 255" TextAlignment="Center"
+                       FontSize="50" Foreground="{StaticResource DefaultForegroundLight}"/>
+            <TextBlock Text="Score" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="0 0 90 65" TextAlignment="Center"
+                       FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
+            <TextBlock Text="{Binding PlayerScore}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="0 0 90 30" TextAlignment="Center"
+                       FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
+
+            <TextBlock x:Name="TbRound" Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                Height="60" Width="300" Margin="35 0 0 35" TextAlignment="Center"
                FontSize="50" Foreground="{StaticResource DefaultColorMedium}"/>
 
-            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               Height="50" Width="100" Margin="0 0 90 255" TextAlignment="Center"
-               FontSize="50" Foreground="{StaticResource DefaultForegroundDark}"/>
+            <TextBlock Text="Difficulty" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       Height="20" Width="100" Margin="111 0 0 105" TextAlignment="Center"
+                       FontSize="15" Foreground="{StaticResource DefaultForegroundLight}"/>
+            <TextBlock Text="{Binding TbDifficulty}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       Height="50" Width="100" Margin="111 0 0 55" TextAlignment="Center"
+                       FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
 
             <StackPanel VerticalAlignment="Center" Margin="0 0 0 50">
                 <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" Width="200"
-                           HorizontalAlignment="Center" Margin="0" FontSize="70" Foreground="{StaticResource DefaultForegroundDark}"/>
+                           HorizontalAlignment="Center" Margin="0" FontSize="70" Foreground="{StaticResource DefaultForegroundLight}"/>
 
                 <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
                              Height="150" Width="750" Margin="0">

@@ -4,6 +4,7 @@ using _8BitGameBase.View.UserControls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +38,7 @@ namespace _8BitGameBase
             LeaderboardManager.InitializeLeaderboard();
             InitializeComponent();
 
-            BtnMinimizeSymbol = "🗖";
+            SetTitleBar();
             _frame = MainFrame;
             _frame.Content = new MainMenu();
         }
@@ -63,13 +64,23 @@ namespace _8BitGameBase
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+            }
+            else
+                WindowState = WindowState.Maximized;
+            SetTitleBar();
+        }
+        private void SetTitleBar()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                GridTitleBar.Background = (SolidColorBrush)this.FindResource("TitleBarMaximizedColor");
+                BtnMinimizeSymbol = "🗗";
+            }
+            else
+            {
+                GridTitleBar.Background = (SolidColorBrush)this.FindResource("TitleBarMinimizedColor");
                 BtnMinimizeSymbol = "🗖";
             }
-            //else
-            //{
-            //    WindowState = WindowState.Maximized;
-            //    BtnMinimizeSymbol = "🗗";
-            //}
         }
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {

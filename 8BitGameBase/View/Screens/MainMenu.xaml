@@ -9,7 +9,7 @@
       
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
+      MinHeight="{StaticResource FrameHeight}" MinWidth="{StaticResource FrameWidth}"
       Background="{StaticResource GameBackground}"
       Title="MainMenu">
     <Page.Resources>
@@ -24,17 +24,21 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="GridMenu" Grid.Row="1" VerticalAlignment="Center" Margin="0 0 0 50">
+        <StackPanel x:Name="StpMenu" Grid.Row="1" VerticalAlignment="Center" Margin="0 0 0 50" Visibility="Visible">
             <TextBlock VerticalAlignment="Top" Text="8 BIT GUESSER" TextAlignment="Center" FontSize="100"
-                       Foreground="{StaticResource DefaultForegroundDark}"/>
+                       Foreground="{StaticResource DefaultForegroundLight}"/>
 
             <Button x:Name="BtnPlay" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
-                    Content="{Binding BtnPlayContent}" Height="80" Width="230"
-                    Click="BtnPlay_Click" Margin="0 25 0 0"/>
-            
+                    Content="PLAY GAME" Height="50" Width="230" Margin="0 20 0 0" Click="BtnPlay_Click"/>
+
             <Button x:Name="BtnLeaderboard" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
-                    Content="{Binding BtnLeaderboardContent}" Height="80" Width="230"
-                    Click="BtnLeaderboard_Click" Margin="0 25 0 0"/>
+                    Content="LEADERBOARD" Height="50" Width="230" Margin="0 20 0 0" Click="BtnLeaderboard_Click"/>
+
+            <Button x:Name="BtnOptions" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
+                    Content="OPTIONS" Height="50" Width="230" Margin="0 20 0 0" Click="BtnOptions_Click"/>
+
+            <Button x:Name="BtnExit" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
+                    Content="EXIT" Height="50" Width="230" Margin="0 20 0 0" Click="BtnExit_Click"/>
         </StackPanel>
     </Grid>
 </Page>

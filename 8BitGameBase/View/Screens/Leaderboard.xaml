@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:_8BitGameBase.View.Screens"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
+      MinHeight="{StaticResource FrameHeight}" MinWidth="{StaticResource FrameWidth}"
       Background="{StaticResource GameBackground}"
       Title="Leaderboard">
     <Grid>
@@ -14,9 +14,9 @@
                 Content="Back" FontFamily="{StaticResource ArcadeFont}"  BorderBrush="#FFB5B5B5"/>
 
         <StackPanel Margin="0 120 0 50" Width="900">
-            <TextBlock Text="TOP 10 PLAYERS" Foreground="{StaticResource DefaultForegroundDark}" HorizontalAlignment="Center" VerticalAlignment="Top"
+            <TextBlock Text="TOP 10 PLAYERS" Foreground="{StaticResource DefaultForegroundLight}" HorizontalAlignment="Center" VerticalAlignment="Top"
                        FontSize="70" Height="70" Margin="5" FontFamily="{StaticResource ArcadeFont}"/>
-            <Border Height="650" Margin="50 -15 50 15" Background="Transparent" BorderThickness="0" BorderBrush="{StaticResource DefaultColorDark}">
+            <Border Height="650" Margin="50 -10 50 15" Background="Transparent" BorderThickness="0">
                 <StackPanel>
                     <ListView x:Name="lvLeaderboard" Background="Transparent" BorderThickness="0" Height="auto" Width="800" Padding="0"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">

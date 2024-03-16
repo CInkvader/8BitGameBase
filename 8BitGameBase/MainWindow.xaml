@@ -4,11 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_8BitGameBase"
-        mc:Ignorable="d" ResizeMode="NoResize"
+        mc:Ignorable="d"
         Title="8BitGuesser"
         
         WindowStyle="None"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         
         Height="650" Width="1000"
         MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
@@ -16,23 +15,26 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
-    <Window.Background>
-        <ImageBrush ImageSource="Images/GameBackground_Main.png" Stretch="UniformToFill"/>
-    </Window.Background>
-    
-    <Grid KeyboardNavigation.TabNavigation="None">
+
+    <Grid KeyboardNavigation.TabNavigation="None" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="Black">
+        <Grid Grid.RowSpan="2" Height="{StaticResource FrameHeight}" Width="{StaticResource FrameWidth}">
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/GameBackground_Main.png" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0 35 0 0"/>
+        </Grid>
+
+        <Grid x:Name="GridTitleBar" Grid.Row="0" MouseLeftButtonDown="Window_MouseLeftButtonDown">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="BtnMinimize" Content="🗕" Style="{StaticResource btnTitleBarStyle}" Click="BtnMinimize_Click" Margin="0 -5 0 0"/>
                 <Button x:Name="BtnMaximize" Content="{Binding BtnMinimizeSymbol}" Style="{StaticResource btnTitleBarStyle}" Click="BtnMaximize_Click"/>
                 <Button x:Name="BtnClose" Content="🗙" Style="{StaticResource btnTitleBarStyle}" Click="BtnClose_Click"/>
             </StackPanel>
         </Grid>
-        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
