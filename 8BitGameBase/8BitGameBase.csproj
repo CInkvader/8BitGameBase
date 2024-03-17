@@ -11,29 +11,21 @@
 
   <ItemGroup>
     <None Remove="Fonts\ARCADECLASSIC.TTF" />
-    <None Remove="Images\GameBackground_1.jpg" />
-    <None Remove="Images\GameBackground_2.jpg" />
-    <None Remove="Images\GameBackground_3.jpg" />
     <None Remove="Images\GameBackground_Main.png" />
     <None Remove="Images\GameBackground_Main_2.jpeg" />
+    <None Remove="Media\CRTEffect.mp4" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Fonts\ARCADECLASSIC.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\GameBackground_1.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\GameBackground_2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\GameBackground_3.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\GameBackground_Main.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Media\CRTEffect.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

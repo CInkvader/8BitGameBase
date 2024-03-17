@@ -99,14 +99,14 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="20"/>
         
-        <Setter Property="Height" Value="80"/>
+        <Setter Property="Height" Value="79"/>
         <Setter Property="Width" Value="60"/>
-        <Setter Property="Margin" Value="107 71 50 50"/>
+        <Setter Property="Margin" Value="106 72 50 50"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         
         <Setter Property="BorderBrush" Value="#FFB5B5B5"/>
-        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
     <Style x:Key="btnTitleBarStyle" TargetType="Button">

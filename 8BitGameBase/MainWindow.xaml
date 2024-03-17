@@ -23,10 +23,32 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.RowSpan="2" Height="{StaticResource FrameHeight}" Width="{StaticResource FrameWidth}">
-            <Grid.Background>
-                <ImageBrush ImageSource="Images/GameBackground_Main.png" Stretch="UniformToFill"/>
-            </Grid.Background>
+            <Border x:Name="BdBackground" Width="800" Height="720" Margin="0 60 0 0"
+                    Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+            <Border x:Name="BdBackBackground" Width="64" Height="85"
+                       VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0"
+                       Margin="105 105 0 0" Background="{StaticResource BackgroundScreenActive}"/>
+
+            <Border x:Name="BdDifficulty" Width="110" Height="85" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+               Margin="105 0 0 85" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 75 60" Width="130">
+                <Border x:Name="BdCornerLight" Height="80" Margin="0" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+                <Border x:Name="BdWarning" Height="350" Margin="0 0 0 35" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+                <Border x:Name="BdTimer" Height="140" Margin="0 0 0 75" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+                <Border x:Name="BdScore" Height="100" Margin="0" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+            </StackPanel>
+
+            <Border x:Name="BdTimerBar" Margin="552 0 0 65" Width="{StaticResource timerBarLength}" Height="65"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
+
             <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0 35 0 0"/>
+
+            <MediaElement x:Name="CRT" LoadedBehavior="Manual" Opacity="0" Stretch="UniformToFill"
+                          MediaEnded="CRT_MediaEnded" IsHitTestVisible="False"/>
+                        
+            <Image Source="Images/GameBackground_Main.png" Stretch="UniformToFill"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
         </Grid>
 
         <Grid x:Name="GridTitleBar" Grid.Row="0" MouseLeftButtonDown="Window_MouseLeftButtonDown">

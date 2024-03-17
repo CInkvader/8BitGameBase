@@ -25,12 +25,14 @@ namespace _8BitGameBase.View.Screens
         private readonly object? _previousPage = null;
         private int _playerScore = 0;
         private int _selectedDifficulty = 0;
+        private double _difficultyMultiplier = 0;
 
-        public GameLosePrompt(object data, DifficultySelection.GameDifficulty gameDifficulty, int playerScore = 0)
+        public GameLosePrompt(object data, DifficultySelection.GameDifficulty gameDifficulty, double multiplier, int playerScore = 0)
         {
             DataContext = this;
             _previousPage = data ?? new Menu();
             _selectedDifficulty = (int)gameDifficulty;
+            _difficultyMultiplier = multiplier;
 
             InitializeComponent();
             PlayerScore = playerScore;
@@ -49,7 +51,7 @@ namespace _8BitGameBase.View.Screens
             if (_previousPage != null)
             {
                 Page previousPage = (Page)_previousPage;
-                MainWindow.ChangeScreen(new MainGame(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty));
+                MainWindow.ChangeScreen(new MainGame(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty, _difficultyMultiplier));
             }
         }
         private void BtnSaveRecord_Click(object sender, RoutedEventArgs e)

@@ -61,7 +61,20 @@ namespace _8BitGameBase.View.Screens
 
                 return;
             }
-            MainWindow.ChangeScreen(new MainGame(_previousPage ?? new MainMenu(), (GameDifficulty)int.Parse((string)_selectedButton.Tag)));
+            double multiplier = double.Parse((string)_selectedButton.Tag);
+            MainWindow.ChangeScreen(new MainGame(_previousPage ?? new MainMenu(), difficultyIndex(_selectedButton), multiplier));
+        }
+        private GameDifficulty difficultyIndex(Button button)
+        {
+            if (button.Equals(BtnEasy))
+                return (GameDifficulty)1;
+
+            if (button.Equals(BtnMedium))
+                return (GameDifficulty)2;
+
+            if (button.Equals(BtnHard))
+                return (GameDifficulty)3;
+            return (GameDifficulty)4;
         }
         private static void BtnBitResizeAnimation(Button? button, int[] fromToHeight, int[] fromToWidth)
         {

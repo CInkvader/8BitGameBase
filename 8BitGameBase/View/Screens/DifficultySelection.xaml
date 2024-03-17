@@ -25,19 +25,19 @@
                 <TextBlock Width="auto" Text="{Binding TbMultiplier}" FontSize="40" TextAlignment="Left" Foreground="{StaticResource DefaultForegroundBright}"/>
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Height="280">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="280" Margin="0 10 0 0">
                 <Button x:Name="BtnEasy" Style="{StaticResource btnMainStyle}" Content="EASY" FontFamily="{StaticResource ArcadeFont}"
-                Width="200" Height="50" Margin="0 10 0 20" Tag="1" Click="BtnDiffculty_Click"/>
+                Width="200" Height="50" Margin="0 0 0 220" Tag="1" Click="BtnDiffculty_Click" VerticalAlignment="Center"/>
 
                 <Button x:Name="BtnMedium" Style="{StaticResource btnMainStyle}" Content="NORMAL" FontFamily="{StaticResource ArcadeFont}"
-                Width="200" Height="50" Margin="30 0 30 20" Tag="2" Click="BtnDiffculty_Click"/>
+                Width="200" Height="50" Margin="0 0 0 90" Tag="5" Click="BtnDiffculty_Click" VerticalAlignment="Center"/>
 
                 <Button x:Name="BtnHard" Style="{StaticResource btnMainStyle}" Content="HARD" FontFamily="{StaticResource ArcadeFont}"
-                Width="200" Height="50" Margin="0 0 0 20" Tag="3" Click="BtnDiffculty_Click"/>
+                Width="200" Height="50" Margin="0 40 0 0" Tag="10" Click="BtnDiffculty_Click" VerticalAlignment="Center"/>
 
                 <Button x:Name="BtnExtreme" Style="{StaticResource btnMainStyle}" Content="EXTREME" FontFamily="{StaticResource ArcadeFont}"
-                Width="200" Height="50" Margin="0" Tag="4" Click="BtnDiffculty_Click"/>
-            </StackPanel>
+                Width="200" Height="50" Margin="0 170 0 0" Tag="20" Click="BtnDiffculty_Click" VerticalAlignment="Center"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

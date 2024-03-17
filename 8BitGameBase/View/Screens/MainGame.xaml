@@ -37,9 +37,9 @@
                        Height="50" Width="100" Margin="0 0 90 30" TextAlignment="Center"
                        FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
 
-            <TextBlock x:Name="TbRound" Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-               Height="60" Width="300" Margin="35 0 0 35" TextAlignment="Center"
-               FontSize="50" Foreground="{StaticResource DefaultColorMedium}"/>
+            <TextBlock x:Name="TbRound" Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
+               Height="60" Width="300" Margin="35 150 0 0" TextAlignment="Center"
+               FontSize="50" Foreground="{StaticResource DefaultForegroundLight}"/>
 
             <TextBlock Text="Difficulty" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        Height="20" Width="100" Margin="111 0 0 105" TextAlignment="Center"

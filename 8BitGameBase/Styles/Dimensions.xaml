@@ -6,4 +6,6 @@
     
     <sys:Double x:Key="minWindowHeight">950</sys:Double>
     <sys:Double x:Key="minWindowWidth">1300</sys:Double>
+
+    <sys:Double x:Key="timerBarLength">238</sys:Double>
 </ResourceDictionary>

@@ -5,10 +5,10 @@
     <SolidColorBrush x:Key="DefaultForegroundLight">white</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColorLight">white</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColorMedium">#FF5C2E78</SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultColorMedium_2">#FF217143</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultForegroundBright">#FFFFA800</SolidColorBrush>
-    <!--<SolidColorBrush x:Key="DefaultColorDark">white</SolidColorBrush>-->
-    <!--<SolidColorBrush x:Key="DefaultForegroundDark">white</SolidColorBrush>-->
-
+    
+    <SolidColorBrush x:Key="BackgroundScreenActive">#FF121212</SolidColorBrush>
     <SolidColorBrush x:Key="TitleBarMinimizedColor">#FF5C2E78</SolidColorBrush>
     <SolidColorBrush x:Key="TitleBarMaximizedColor">black</SolidColorBrush>
 </ResourceDictionary>

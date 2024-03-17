@@ -27,36 +27,46 @@ namespace _8BitGameBase.View.Screens
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private readonly object? _previousPage = null;
+        private readonly MainWindow? _mainWIndow;
 
         private Random _random = new();
         private DispatcherTimer _timer = new();
         private readonly List<BitButton> _buttons = [];
 
         private int _selectedDifficulty = 0;
+        private double _difficultyMultiplier = 0;
+
         private int _roundStartTime = 0;
         private int _roundTimeDeduction = 0;
         private int _baseScore = 25;
+        private int _minimumDecimal = 0;
 
         private int _bitAnswer = 0;
         private int _currentRound = 0;
         private int _playerScore = 0;
+        private Storyboard? _barAnimation = null;
+        private Storyboard[]? _warningAnimations = [];
 
         private string _tbDecimalQuestion = string.Empty;
         private string _tbGameTimer = string.Empty;
         private string _tbGameRound = string.Empty;
         private string _tbDifficulty = string.Empty;
 
-        public MainGame(object previousPage, DifficultySelection.GameDifficulty gameDifficulty)
+        public MainGame(object previousPage, DifficultySelection.GameDifficulty gameDifficulty, double difficultyMultiplier)
         {
             _previousPage = previousPage ?? new Menu();
             DataContext = this;
+            _mainWIndow = MainWindow.Instance;
+
             _selectedDifficulty = (int)gameDifficulty;
+            _difficultyMultiplier = difficultyMultiplier;
 
             _timer = new()
             {
                 Interval = new TimeSpan(0, 0, 0, 1, 0)
             };
             _timer.Tick += Timer_Tick;
+            _warningAnimations = null;
 
             _buttons = [];
             _tbDecimalQuestion = string.Empty;
@@ -78,6 +88,11 @@ namespace _8BitGameBase.View.Screens
             if (time == 0)
             {
                 GameFinish();
+                return;
+            }
+            if (time <= 10 && _warningAnimations == null)
+            {
+                PlayWarningAnimation();
             }
         }
         private void InitializeButtons()
@@ -135,43 +150,56 @@ namespace _8BitGameBase.View.Screens
                     TbDifficulty = "I";
                     _roundStartTime = 90;
                     _roundTimeDeduction = 6;
+                    _minimumDecimal = 1;
                     break;
                 case 2:
                     TbDifficulty = "II";
                     _roundStartTime = 60;
                     _roundTimeDeduction = 4;
+                    _minimumDecimal = 1;
                     break;
                 case 3:
                     TbDifficulty = "III";
                     _roundStartTime = 30;
                     _roundTimeDeduction = 2;
+                    _minimumDecimal = 30;
                     break;
                 case 4:
                     TbDifficulty = "IV";
                     _roundStartTime = 15;
                     _roundTimeDeduction = 1;
+                    _minimumDecimal = 70;
                     break;
             }
         }
 
         private void StartGame()
         {
+            if (_mainWIndow != null)
+                _mainWIndow.BdTimerBar.Background = (SolidColorBrush)this.FindResource("DefaultColorMedium_2");
+
             SetDifficulty();
             NewRound();
         }
-        private void CheckAnswer()
+        private async void CheckAnswer()
         {
             if (_bitAnswer.ToString() == _tbDecimalQuestion)
             {
-                CalculateScore();
+                _timer.Stop();
+                StopAnimations();
                 PlayBlinkAnimation();
+
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                CalculateScore();
+                NewRound();
+                GridGame.IsEnabled = true;
             }
         }
 
         private void NewRound()
         {
             ResetBitButtons();
-            TbDecimalQuestion = _random.Next(1, 256).ToString();
+            TbDecimalQuestion = _random.Next(_minimumDecimal, 256).ToString();
 
             TbGameRound = (++_currentRound).ToString();
 
@@ -182,11 +210,12 @@ namespace _8BitGameBase.View.Screens
             TbGameTimer = _roundStartTime.ToString();
 
             _timer.Start();
+            TimerBarPlayAnimation();
         }
         private void CalculateScore()
         {
             double performanceMultiplier = 1 + (((double)_currentRound - 1) / 10) + (double.Parse(TbGameTimer) / _roundStartTime);
-            PlayerScore += (int)Math.Ceiling(_selectedDifficulty * _baseScore * performanceMultiplier);
+            PlayerScore += (int)Math.Ceiling(_difficultyMultiplier * _baseScore * performanceMultiplier);
         }
         private void ResetBitButtons()
         {
@@ -198,11 +227,22 @@ namespace _8BitGameBase.View.Screens
         private void GameFinish()
         {
             _timer.Stop();
+            StopAnimations();
+            TimerBarClear();
+
             if (_previousPage != null)
             {
                 Page previousPage = (Page)_previousPage;
-                MainWindow.ChangeScreen(new GameLosePrompt(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty, PlayerScore));
+                MainWindow.ChangeScreen(new GameLosePrompt(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty, _difficultyMultiplier, PlayerScore));
             }
+        }
+        private void BtnMainGameBack_Click(object sender, RoutedEventArgs e)
+        {
+            _timer.Stop();
+            StopAnimations();
+            TimerBarClear();
+
+            MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
         }
 
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
@@ -268,24 +308,17 @@ namespace _8BitGameBase.View.Screens
             storyboard.Begin();
         }
 
-        private void BtnMainGameBack_Click(object sender, RoutedEventArgs e)
-        {
-            _timer.Stop();
-            MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
-        }
-
-        private static Storyboard InitializeAnimation()
+        private static Storyboard InitializeColorAnimation(Color fromColor, Color toColor, double duration = 0.2, bool reverse = true)
         {
             ColorAnimation colorAnimation = new ColorAnimation
             {
-                From = Color.FromArgb(0xFF, 0x5C, 0x2E, 0x78),
-                To = Color.FromArgb(0xFF, 0xFF, 0xA8, 0x00),
-                AutoReverse = true,
-                Duration = TimeSpan.FromSeconds(0.2),
+                From = fromColor,
+                To = toColor,
+                AutoReverse = reverse,
+                Duration = TimeSpan.FromSeconds(duration),
             };
-            Storyboard blinkAnimation = new Storyboard();
+            Storyboard blinkAnimation = new();
             blinkAnimation.Children.Add(colorAnimation);
-            blinkAnimation.RepeatBehavior = new RepeatBehavior(3);
 
             Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Background.Color"));
             return blinkAnimation;
@@ -293,31 +326,98 @@ namespace _8BitGameBase.View.Screens
         private void PlayBlinkAnimation()
         {
             GridGame.IsEnabled = false;
-            int i = 0;
-            int limit = _buttons.Count - 1;
-            _timer.Stop();
 
             foreach (BitButton button in _buttons)
             {
                 button.BtnBit.IsDefault = true;
-                Storyboard blinkingAnimation = InitializeAnimation();
+                Storyboard blinkingAnimation = InitializeColorAnimation(Color.FromArgb(0xFF, 0x5C, 0x2E, 0x78), Color.FromArgb(0xFF, 0xFF, 0xA8, 0x00));
+                blinkingAnimation.RepeatBehavior = new RepeatBehavior(2);
 
                 if (blinkingAnimation == null)
                     continue;
 
-                if (i++ == limit)
-                {
-                    blinkingAnimation.Completed += BlinkAnimation_Completed;
-                }
-
                 Storyboard.SetTarget(blinkingAnimation, button.BtnBit);
                 blinkingAnimation.Begin();
             }
+
+            if (_mainWIndow != null)
+            {
+                Storyboard cornerBlink = InitializeColorAnimation(Color.FromArgb(0xFF, 0x12, 0x12, 0x12), Color.FromArgb(0xFF, 0xFF, 0xA8, 0x00));
+                cornerBlink.RepeatBehavior = new RepeatBehavior(2);
+
+                Storyboard.SetTarget(cornerBlink, _mainWIndow.BdCornerLight);
+                cornerBlink.Begin();
+            }
         }
-        private void BlinkAnimation_Completed(object? sender, EventArgs e)
+        private void PlayWarningAnimation()
         {
-            NewRound();
-            GridGame.IsEnabled = true;
+            if (_mainWIndow == null)
+                return;
+
+            _warningAnimations = new Storyboard[3];
+
+            for (int i = 0; i < 3; ++i)
+            {
+                _warningAnimations[i] = InitializeColorAnimation(Color.FromArgb(0xFF, 0x12, 0x12, 0x12), Color.FromArgb(0xFF, 0x9C, 0x1D, 0x1D), 0.25);
+                _warningAnimations[i].RepeatBehavior = new RepeatBehavior(20);
+            }
+
+            Storyboard.SetTarget(_warningAnimations[0], _mainWIndow.BdWarning);
+            Storyboard.SetTarget(_warningAnimations[1], _mainWIndow.BdCornerLight);
+            Storyboard.SetTarget(_warningAnimations[2], _mainWIndow.BdTimer);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                _warningAnimations[i].Begin();
+            }
+        }
+
+        private void TimerBarPlayAnimation()
+        {
+            if (_mainWIndow == null)
+                return;
+            double startLength = (double)this.FindResource("timerBarLength");
+
+            DoubleAnimation widthAnimation = new()
+            {
+                From = startLength,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(_roundStartTime)
+            };
+            Storyboard barAnimation = InitializeColorAnimation(Color.FromArgb(0xFF, 0x21, 0x71, 0x43), Color.FromArgb(0xFF, 0x9C, 0x1D, 0x1D), _roundStartTime);
+            barAnimation.Children.Add(widthAnimation);
+
+            Storyboard.SetTargetProperty(widthAnimation, new PropertyPath(WidthProperty));
+            Storyboard.SetTarget(barAnimation, _mainWIndow.BdTimerBar);
+
+            _barAnimation = barAnimation;
+            _barAnimation.Begin();
+        }
+        private void StopAnimations()
+        {
+            if (_barAnimation == null || _mainWIndow == null)
+                return;
+
+            _barAnimation.Stop();
+            _mainWIndow.BdTimerBar.Width = _mainWIndow.BdTimerBar.ActualWidth;
+
+            if (_warningAnimations == null) { return; }
+            for (int i = 0; i < 3; ++i)
+            {
+                _warningAnimations[i].Stop();
+            }
+            _warningAnimations = null;
+
+            SolidColorBrush defaultColor = (SolidColorBrush)FindResource("BackgroundScreenActive");
+            _mainWIndow.BdWarning.Background = defaultColor;
+            _mainWIndow.BdTimer.Background = defaultColor;
+            _mainWIndow.BdCornerLight.Background = defaultColor;
+        }
+        private void TimerBarClear()
+        {
+            if (_barAnimation == null || _mainWIndow == null)
+                return;
+            _mainWIndow.BdTimerBar.Width = 0;
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
