@@ -42,12 +42,12 @@
             <Border x:Name="BdTimerBar" Margin="552 0 0 65" Width="{StaticResource timerBarLength}" Height="65"
                HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{StaticResource BackgroundScreenActive}" Opacity="0"/>
 
-            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0 35 0 0"/>
+            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0 35 0 0" Navigated="MainFrame_Navigated"/>
 
             <MediaElement x:Name="CRT" LoadedBehavior="Manual" Opacity="0" Stretch="UniformToFill"
                           MediaEnded="CRT_MediaEnded" IsHitTestVisible="False"/>
                         
-            <Image Source="Images/GameBackground_Main.png" Stretch="UniformToFill"
+            <Image Source="Media/Images/GameBackground_Main.png" Stretch="UniformToFill"
                    HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
         </Grid>
 

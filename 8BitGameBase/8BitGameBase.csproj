@@ -11,19 +11,63 @@
 
   <ItemGroup>
     <None Remove="Fonts\ARCADECLASSIC.TTF" />
-    <None Remove="Images\GameBackground_Main.png" />
-    <None Remove="Images\GameBackground_Main_2.jpeg" />
+    <None Remove="Media\Images\GameBackground_Main.png" />
+    <None Remove="Media\Images\GameBackground_Main_2.jpeg" />
     <None Remove="Media\CRTEffect.mp4" />
+    <None Remove="Media\Images\Tutorial.png" />
+    <None Remove="Media\Sounds\BGM\MainMenu_Jungle.mp3" />
+    <None Remove="Media\Sounds\BGM\Music_1.mp3" />
+    <None Remove="Media\Sounds\BGM\Music_2.mp3" />
+    <None Remove="Media\Sounds\BGM\Music_3.mp3" />
+    <None Remove="Media\Sounds\BGM\Music_4.mp3" />
+    <None Remove="Media\Sounds\Effects\ButtonPress_1.mp3" />
+    <None Remove="Media\Sounds\Effects\ButtonPress_2.mp3" />
+    <None Remove="Media\Sounds\Effects\ButtonPress_3.mp3" />
+    <None Remove="Media\Sounds\Effects\ButtonPress_4.mp3" />
+    <None Remove="Media\Sounds\Effects\StartupSound.mp3" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Fonts\ARCADECLASSIC.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\GameBackground_Main.png">
+    <Resource Include="Media\Images\GameBackground_Main.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Media\CRTEffect.mp4">
+    <Resource Include="Media\Images\Tutorial.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Media\Sounds\BGM\MainMenu_Jungle.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\BGM\Music_1.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\BGM\Music_2.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\BGM\Music_3.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\BGM\Music_4.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Effects\ButtonPress_1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Effects\ButtonPress_2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Effects\ButtonPress_3.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Effects\ButtonPress_4.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Effects\StartupSound.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Videos\CRTEffect.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

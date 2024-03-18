@@ -28,6 +28,10 @@ namespace _8BitGameBase
         private static Frame _frame = new();
         private string _BtnMinimizeSymbol = string.Empty;
 
+        private static MediaPlayer _startupSound = new();
+        private static MediaPlayer _menuBGM = new();
+        private bool _firstStartup = true;
+
         public static MainWindow? Instance { get; private set; }
         public string BtnMinimizeSymbol
         {
@@ -47,7 +51,7 @@ namespace _8BitGameBase
             SetTitleBar();
             _frame = MainFrame;
 
-            LoadGame();
+            InitializeGame();
         }
         private void InitializeEffects()
         {
@@ -58,10 +62,50 @@ namespace _8BitGameBase
                 BdWarning, BdCornerLight
             };
         }
+        
+        private async void InitializeGame()
+        {
+            InitializeMedia();
+            await Task.Delay(TimeSpan.FromSeconds(1));
+
+            _startupSound.Play();
+            CRT.Play();
+
+            PlayBlinkAnimation();
+            PlayStartup_Animation();
+            await Task.Delay(TimeSpan.FromSeconds(6.5));
+
+            _firstStartup = false;
+            _startupSound.Stop();
+            _startupSound.Close();
+
+            if (MainFrame.Content is MainMenu || MainFrame.Content is Leaderboard)
+                _menuBGM.Play();
+        }
+        private void InitializeMedia()
+        {
+            CRT.Source = new Uri("Media/Videos/CRTEffect.mp4", UriKind.RelativeOrAbsolute);
+            _startupSound.Open(new Uri("Media/Sounds/Effects/StartupSound.mp3", UriKind.RelativeOrAbsolute));
+            _menuBGM.Open(new Uri("Media/Sounds/BGM/MainMenu_Jungle.mp3", UriKind.RelativeOrAbsolute));
+
+            _menuBGM.MediaEnded += MenuBGM_MediaEnded;
+        }
+        private void MenuBGM_MediaEnded(object? sender, EventArgs e)
+        {
+            _menuBGM.Position = TimeSpan.Zero;
+            _menuBGM.Play();
+        }
 
         public static void ChangeScreen(Page page)
         {
             _frame.Content = page;
+        }
+        public static void StopMenuSoundMedia()
+        {
+            _startupSound.Stop();
+            _startupSound.Close();
+
+            _menuBGM.Stop();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -104,20 +148,6 @@ namespace _8BitGameBase
             Close();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private async void LoadGame()
-        {
-            CRT.Source = new Uri("Media/CRTEffect.mp4", UriKind.RelativeOrAbsolute);
-            CRT.Play();
-            await Task.Delay(TimeSpan.FromSeconds(2));
-
-            PlayBlinkAnimation();
-            PlayStartup_Animation();
-        }
         private static Storyboard InitializeColorAnimation()
         {
             ColorAnimation colorAnimation = new ColorAnimation
@@ -125,7 +155,7 @@ namespace _8BitGameBase
                 From = Color.FromArgb(0xFF, 0x12, 0x12, 0x12),
                 To = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF),
                 AutoReverse = true,
-                Duration = TimeSpan.FromSeconds(0.1),
+                Duration = TimeSpan.FromSeconds(0.06),
             };
             DoubleAnimation backgroundOpacityAnimation = new DoubleAnimation
             {
@@ -176,17 +206,28 @@ namespace _8BitGameBase
                 blinkingAnimation.Begin();
             }
         }
+
         private async void Startup_Animation_Complete(object? sender, EventArgs e)
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
             BdTimerBar.Opacity = 1;
             _frame.Content = new MainMenu();
         }
-
         private void CRT_MediaEnded(object sender, RoutedEventArgs e)
         {
             CRT.Position = TimeSpan.Zero;
             CRT.Play();
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            if (MainFrame.Content is MainMenu && !_firstStartup)
+                _menuBGM.Play();
         }
     }
 }

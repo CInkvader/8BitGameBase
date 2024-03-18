@@ -62,6 +62,7 @@ namespace _8BitGameBase.View.Screens
                 return;
             }
             double multiplier = double.Parse((string)_selectedButton.Tag);
+            MainWindow.StopMenuSoundMedia();
             MainWindow.ChangeScreen(new MainGame(_previousPage ?? new MainMenu(), difficultyIndex(_selectedButton), multiplier));
         }
         private GameDifficulty difficultyIndex(Button button)

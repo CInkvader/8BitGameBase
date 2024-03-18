@@ -52,6 +52,11 @@ namespace _8BitGameBase.View.Screens
         private string _tbGameRound = string.Empty;
         private string _tbDifficulty = string.Empty;
 
+        MediaPlayer? _backgroundMusic = null;
+        List<MediaPlayer> _buttonSounds = [];
+
+        Uri? _buttonClickSoundPath = null;
+
         public MainGame(object previousPage, DifficultySelection.GameDifficulty gameDifficulty, double difficultyMultiplier)
         {
             _previousPage = previousPage ?? new Menu();
@@ -76,24 +81,24 @@ namespace _8BitGameBase.View.Screens
             PlayerScore = 0;
 
             InitializeComponent();
-            InitializeButtons();
-
-            StartGame();
+            LoadGame();
         }
-        private void Timer_Tick(object? sender, EventArgs e)
+        private async void LoadGame()
         {
-            int time = (int.Parse(TbGameTimer) - 1);
-            TbGameTimer = time.ToString();
+            SetDifficulty();
+            InitializeButtons();
+            InitializeSounds();
 
-            if (time == 0)
-            {
-                GameFinish();
-                return;
-            }
-            if (time <= 10 && _warningAnimations == null)
-            {
-                PlayWarningAnimation();
-            }
+            if (_mainWIndow != null)
+                _mainWIndow.BdTimerBar.Background = (SolidColorBrush)FindResource("DefaultColorMedium_3");
+            TimerBarPlayAnimation(false, 5);
+
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            ucTutorialScreen.Visibility = Visibility.Collapsed;
+
+            GridGame.Visibility = Visibility.Visible;
+            GridGame.IsEnabled = true;
+            StartGame();
         }
         private void InitializeButtons()
         {
@@ -109,39 +114,54 @@ namespace _8BitGameBase.View.Screens
                 ugButtons.Children.Add(button);
             }
         }
+        private void InitializeSounds()
+        {
+            _buttonClickSoundPath = new Uri("Media/Sounds/Effects/ButtonPress_3.mp3", UriKind.RelativeOrAbsolute);
+            _buttonSounds = new List<MediaPlayer>();
+            _backgroundMusic = new MediaPlayer();
 
-        public string TbDecimalQuestion
-        {
-            get { return _tbDecimalQuestion; }
-            set { _tbDecimalQuestion = value; OnPropertyChanged(); }
-        }
-        public string TbGameTimer
-        {
-            get { return _tbGameTimer; }
-            set { _tbGameTimer = value; OnPropertyChanged(); }
-        }
-        public string TbGameRound
-        {
-            get { return _tbGameRound; }
-            set
+            _backgroundMusic.Open(SetBGM());
+            for (int i = 0; i < 10; ++i)
             {
-                _currentRound = int.Parse(value);
-                _tbGameRound = "Round " + value;
-                OnPropertyChanged();
+                _buttonSounds.Add(new MediaPlayer());
+
+                _buttonSounds[i].Open(_buttonClickSoundPath);
+                _buttonSounds[i].Volume = 0.3f;
+                _buttonSounds[i].MediaEnded += Sound_MediaEnded;
             }
         }
-        public string TbDifficulty
+        private void PlayButtonSound()
         {
-            get { return _tbDifficulty; }
-            set { _tbDifficulty = value; OnPropertyChanged(); }
+            _buttonSounds[0].Play();
+            _buttonSounds.RemoveAt(0);
+
+            MediaPlayer newSound = new MediaPlayer();
+            newSound.Open(_buttonClickSoundPath);
+            newSound.Volume = 0.1f;
+            newSound.MediaEnded += Sound_MediaEnded;
+            _buttonSounds.Add(newSound);
+        }
+        private void Sound_MediaEnded(object? sender, EventArgs e)
+        {
+            if (sender == null)
+                return;
+            ((MediaPlayer)sender).Close();
         }
 
-        public int PlayerScore
+        private Uri SetBGM()
         {
-            get { return _playerScore; }
-            set { _playerScore = value; OnPropertyChanged(); }
+            switch (_selectedDifficulty)
+            {
+                case 1:
+                    return new Uri("Media/Sounds/BGM/Music_1.mp3", UriKind.RelativeOrAbsolute);
+                case 2:
+                    return new Uri("Media/Sounds/BGM/Music_2.mp3", UriKind.RelativeOrAbsolute);
+                case 3:
+                    return new Uri("Media/Sounds/BGM/Music_3.mp3", UriKind.RelativeOrAbsolute);
+                default:
+                    return new Uri("Media/Sounds/BGM/Music_4.mp3", UriKind.RelativeOrAbsolute);
+            }
         }
-        
         private void SetDifficulty()
         {
             switch (_selectedDifficulty)
@@ -172,15 +192,61 @@ namespace _8BitGameBase.View.Screens
                     break;
             }
         }
-
         private void StartGame()
         {
             if (_mainWIndow != null)
                 _mainWIndow.BdTimerBar.Background = (SolidColorBrush)this.FindResource("DefaultColorMedium_2");
+            _backgroundMusic?.Play();
 
-            SetDifficulty();
             NewRound();
         }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            int time = (int.Parse(TbGameTimer) - 1);
+            TbGameTimer = time.ToString();
+
+            if (time == 0)
+            {
+                GameFinish();
+                return;
+            }
+            if (time <= 10 && _warningAnimations == null)
+            {
+                PlayWarningAnimation();
+            }
+        }
+        public string TbDecimalQuestion
+        {
+            get { return _tbDecimalQuestion; }
+            set { _tbDecimalQuestion = value; OnPropertyChanged(); }
+        }
+        public string TbGameTimer
+        {
+            get { return _tbGameTimer; }
+            set { _tbGameTimer = value; OnPropertyChanged(); }
+        }
+        public string TbGameRound
+        {
+            get { return _tbGameRound; }
+            set
+            {
+                _currentRound = int.Parse(value);
+                _tbGameRound = "Round " + value;
+                OnPropertyChanged();
+            }
+        }
+        public string TbDifficulty
+        {
+            get { return _tbDifficulty; }
+            set { _tbDifficulty = value; OnPropertyChanged(); }
+        }
+        public int PlayerScore
+        {
+            get { return _playerScore; }
+            set { _playerScore = value; OnPropertyChanged(); }
+        }
+        
         private async void CheckAnswer()
         {
             if (_bitAnswer.ToString() == _tbDecimalQuestion)
@@ -195,7 +261,6 @@ namespace _8BitGameBase.View.Screens
                 GridGame.IsEnabled = true;
             }
         }
-
         private void NewRound()
         {
             ResetBitButtons();
@@ -228,7 +293,7 @@ namespace _8BitGameBase.View.Screens
         {
             _timer.Stop();
             StopAnimations();
-            TimerBarClear();
+            ClearGameElements();
 
             if (_previousPage != null)
             {
@@ -240,7 +305,7 @@ namespace _8BitGameBase.View.Screens
         {
             _timer.Stop();
             StopAnimations();
-            TimerBarClear();
+            ClearGameElements();
 
             MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
         }
@@ -250,6 +315,7 @@ namespace _8BitGameBase.View.Screens
             if (sender == null)
                 return;
 
+            PlayButtonSound();
             int bitValue = 0;
             foreach (BitButton button in _buttons)
             {
@@ -372,19 +438,28 @@ namespace _8BitGameBase.View.Screens
             }
         }
 
-        private void TimerBarPlayAnimation()
+        private void TimerBarPlayAnimation(bool enableColorAnimation = true, double? duration = null)
         {
             if (_mainWIndow == null)
                 return;
+
+            double barDuration = 0;
+            if (duration != null)
+                barDuration = duration.Value;
+            else
+                barDuration = _roundStartTime;
+
             double startLength = (double)this.FindResource("timerBarLength");
 
             DoubleAnimation widthAnimation = new()
             {
                 From = startLength,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(_roundStartTime)
+                Duration = TimeSpan.FromSeconds(barDuration)
             };
-            Storyboard barAnimation = InitializeColorAnimation(Color.FromArgb(0xFF, 0x21, 0x71, 0x43), Color.FromArgb(0xFF, 0x9C, 0x1D, 0x1D), _roundStartTime);
+            Storyboard barAnimation = new Storyboard();
+            if (enableColorAnimation)
+                barAnimation = InitializeColorAnimation(Color.FromArgb(0xFF, 0x21, 0x71, 0x43), Color.FromArgb(0xFF, 0x9C, 0x1D, 0x1D), barDuration);
             barAnimation.Children.Add(widthAnimation);
 
             Storyboard.SetTargetProperty(widthAnimation, new PropertyPath(WidthProperty));
@@ -413,11 +488,14 @@ namespace _8BitGameBase.View.Screens
             _mainWIndow.BdTimer.Background = defaultColor;
             _mainWIndow.BdCornerLight.Background = defaultColor;
         }
-        private void TimerBarClear()
+        private void ClearGameElements()
         {
             if (_barAnimation == null || _mainWIndow == null)
                 return;
             _mainWIndow.BdTimerBar.Width = 0;
+
+            _backgroundMusic?.Stop();
+            _backgroundMusic?.Close();
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

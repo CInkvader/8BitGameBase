@@ -23,7 +23,7 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="True">
+        <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="False" Visibility="Collapsed">
             <Button x:Name="BtnMainGameBack" Style="{StaticResource btnBackStyle}" Content="Back"
                     FontFamily="{StaticResource ArcadeFont}" Click="BtnMainGameBack_Click"/>
 
@@ -58,5 +58,6 @@
                 </UniformGrid>
             </StackPanel>
         </Grid>
+        <UserControls:TutorialMedia x:Name="ucTutorialScreen" Grid.RowSpan="2" Margin="0 0 0 70"/>
     </Grid>
 </Page>
