@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_8BitGameBase"
         mc:Ignorable="d"
+<<<<<<< HEAD
         Title="8BitGuesser"
         
         WindowStyle="None"
@@ -34,5 +35,12 @@
             </StackPanel>
         </Grid>
         <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+=======
+        Title="8BitGuesser" Height="650" Width="1000"
+        MinWidth="1000" MinHeight="650"
+        Background="#FFD9E2E4">
+    <Grid>
+        <Frame x:Name="MainFrame" Grid.Row="0" Grid.RowSpan="3" NavigationUIVisibility="Hidden"/>
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
     </Grid>
 </Window>

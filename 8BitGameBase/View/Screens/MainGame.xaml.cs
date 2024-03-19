@@ -1,10 +1,8 @@
-﻿using _8BitGameBase.Backend;
-using _8BitGameBase.View.UserControls;
+﻿using _8BitGameBase.View.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Printing;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +12,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -33,8 +30,6 @@ namespace _8BitGameBase.View.Screens
 
         private int _bitAnswer = 0;
         private int _roundStartTime = 30;
-        private int _currentRound = 0;
-        private int _playerScore = 0;
 
         private string _tbDecimalQuestion = string.Empty;
         private string _tbGameTimer = string.Empty;
@@ -54,9 +49,7 @@ namespace _8BitGameBase.View.Screens
             _buttons = [];
             _tbDecimalQuestion = string.Empty;
             _bitAnswer = 0;
-
             TbGameRound = "0";
-            PlayerScore = 0;
 
             InitializeComponent();
             InitializeButtons();
@@ -80,8 +73,6 @@ namespace _8BitGameBase.View.Screens
                 BitButton button = new BitButton();
                 _buttons.Add(button);
                 _buttons[i].BtnBit.Click += BtnBitClicked;
-                _buttons[i].BtnBit.MouseEnter += BtnBitMouseEnter;
-                _buttons[i].BtnBit.MouseLeave += BtnBitMouseLeave;
                 _buttons[i].BitValue = (j /= i == 0 ? 1 : 2);
 
                 ugButtons.Children.Add(button);
@@ -101,24 +92,13 @@ namespace _8BitGameBase.View.Screens
         public string TbGameRound
         {
             get { return _tbGameRound; }
-            set
-            {
-                _currentRound = int.Parse(value);
-                _tbGameRound = "Round " + value;
-                OnPropertyChanged();
-            }
+            set { _tbGameRound = "Round " + value; OnPropertyChanged(); }
         }
-        public int PlayerScore
-        {
-            get { return _playerScore; }
-            set { _playerScore = value; OnPropertyChanged(); }
-        }
-        
+
         private void CheckAnswer()
         {
             if (_bitAnswer.ToString() == _tbDecimalQuestion)
             {
-                CalculateScore();
                 NewRound();
             }
         }
@@ -132,17 +112,15 @@ namespace _8BitGameBase.View.Screens
             ResetBitButtons();
             TbDecimalQuestion = _random.Next(1, 256).ToString();
 
-            TbGameRound = (++_currentRound).ToString();
+            // Same as substring
+            int round = int.Parse(TbGameRound[(TbGameRound.IndexOf(' ') + 1)..]) + 1;
+            TbGameRound = round.ToString();
 
-            if (_currentRound > 1 && _currentRound < 12)
+            if (round > 1 && round < 12)
             {
                 _roundStartTime -= 2;
             }
             TbGameTimer = _roundStartTime.ToString();
-        }
-        private void CalculateScore()
-        {
-            PlayerScore += (int)(50 * (1 + (((double)_currentRound - 1) / 10) + (double.Parse(TbGameTimer) / _roundStartTime)));
         }
         private void ResetBitButtons()
         {
@@ -161,6 +139,16 @@ namespace _8BitGameBase.View.Screens
             }
         }
 
+<<<<<<< HEAD
+=======
+            foreach(BitButton button in _buttons)
+            {
+                button.BtnBit.IsEnabled = false;
+            }
+            LosePrompt.Visibility = Visibility.Visible;
+        }
+
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
         {
             if (sender == null)
@@ -179,6 +167,7 @@ namespace _8BitGameBase.View.Screens
             _bitAnswer = bitValue;
             CheckAnswer();
         }
+<<<<<<< HEAD
         private void BtnBitMouseEnter(object? sender, MouseEventArgs e)
         {
             Button? button = sender as Button;
@@ -250,6 +239,8 @@ namespace _8BitGameBase.View.Screens
             storyboard.Begin();
         }
 
+=======
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -7,6 +7,7 @@
       xmlns:local="clr-namespace:_8BitGameBase.View.Screens"
       xmlns:UserControls="clr-namespace:_8BitGameBase.View.UserControls"
       
+<<<<<<< HEAD
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="900"
       MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
@@ -17,12 +18,20 @@
             <Setter Property="FontFamily" Value="{StaticResource ArcadeFont}"/>
         </Style>
     </Page.Resources>
+=======
+      
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" MinWidth="1000" MinHeight="650"
+      Title="MainGame"
+      Background="#FFD9E2E4">
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
+<<<<<<< HEAD
         <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="True">
             <TextBlock Text="{Binding PlayerScore}" HorizontalAlignment="Left" VerticalAlignment="Top"
                        Height="50" Width="100" Margin="60 20 20 20" TextAlignment="Left"
@@ -40,14 +49,31 @@
                 <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" Width="200"
                            HorizontalAlignment="Center" Margin="0 0 0 0" FontSize="50" Foreground="{StaticResource DefaultForegroundDark}"/>
 
+=======
+        <Grid x:Name="GridGame" Grid.Row="1">
+            <TextBlock Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
+               Height="50" Width="300" Margin="20" TextAlignment="Center"
+               FontSize="35" Foreground="#FF235246"/>
+            <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Top"
+               Height="50" Width="100" Margin="20" TextAlignment="Center"
+               FontSize="35" Foreground="#FF235246"/>
+            <StackPanel>
+                <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" VerticalAlignment="Top"
+           Width="200" HorizontalAlignment="Center" Margin="0 150 0 0" FontSize="50" Foreground="#FF235246"/>
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
                 <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
-                             Height="150" Width="900" Margin="0 50 0 0">
+             Height="150" Width="900" Margin="0 0 0 0" VerticalAlignment="Top">
                     <!-- Buttons set trough code in InitializeButtons() -->
                 </UniformGrid>
             </StackPanel>
         </Grid>
+<<<<<<< HEAD
         <Border x:Name="BdTimeBar" Grid.Row="1" HorizontalAlignment="Left"
                 Width="{Binding ActualWidth, ElementName=mainWindow}"
                 VerticalAlignment="Bottom" Height="60" Background="{StaticResource DefaultColorDark}"/>
+=======
+
+        <UserControls:GameLosePrompt x:Name="LosePrompt" Grid.RowSpan="3" Visibility="Collapsed"/>
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
     </Grid>
 </Page>

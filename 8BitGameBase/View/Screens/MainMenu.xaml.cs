@@ -1,5 +1,4 @@
-﻿using _8BitGameBase.Backend;
-using _8BitGameBase.View.UserControls;
+﻿using _8BitGameBase.View.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,29 +22,20 @@ namespace _8BitGameBase.View.Screens
     public partial class MainMenu : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private string _btnPlayContent = string.Empty;
-        private string _btnLeaderboardContent = string.Empty;
-
 
         public MainMenu()
         {
             DataContext = this;
-            _btnPlayContent = "Start Game";
-            _btnLeaderboardContent = "Leaderboard";
+            _btnContent = "Start Game";
             InitializeComponent();
-            LeaderboardManager.InitializeLeaderboard();
         }
 
-        public string BtnPlayContent
-        {
-            get { return _btnPlayContent; }
-            set { _btnPlayContent = value; OnPropertyChanged(); }
-        }
+        private string _btnContent = string.Empty;
 
-        public string BtnLeaderboardContent
+        public string BtnContent
         {
-            get { return _btnLeaderboardContent; }
-            set { _btnLeaderboardContent = value; OnPropertyChanged(); }
+            get { return _btnContent; }
+            set { _btnContent = value; OnPropertyChanged(); }
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
@@ -57,10 +47,13 @@ namespace _8BitGameBase.View.Screens
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+<<<<<<< HEAD
 
         private void BtnLeaderboard_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.ChangeScreen(new Leaderboard(this));
         }
+=======
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
     }
 }

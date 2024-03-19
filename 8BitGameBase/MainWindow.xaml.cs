@@ -1,5 +1,4 @@
-﻿using _8BitGameBase.Backend;
-using _8BitGameBase.View.Screens;
+﻿using _8BitGameBase.View.Screens;
 using _8BitGameBase.View.UserControls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -34,17 +33,18 @@ namespace _8BitGameBase
         {
             DataContext = this;
 
-            LeaderboardManager.InitializeLeaderboard();
             InitializeComponent();
 
             BtnMinimizeSymbol = "🗖";
             _frame = MainFrame;
             _frame.Content = new MainMenu();
         }
+
         public static void ChangeScreen(Page page)
         {
             _frame.Content = page;
         }
+<<<<<<< HEAD
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
@@ -76,6 +76,8 @@ namespace _8BitGameBase
             Close();
         }
 
+=======
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

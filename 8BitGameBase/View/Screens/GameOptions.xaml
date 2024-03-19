@@ -6,9 +6,8 @@
       xmlns:local="clr-namespace:_8BitGameBase.View.Screens"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      MinHeight="{StaticResource minWindowHeight}" MinWidth="{StaticResource minWindowWidth}"
-      Background="{StaticResource GameBackground}"
       Title="GameOptions">
+
     <Grid>
         
     </Grid>

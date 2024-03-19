@@ -7,10 +7,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml"/>
+<<<<<<< HEAD
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <ResourceDictionary Source="Styles/Dimensions.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewStyles.xaml"/>
                 <ResourceDictionary Source="Styles/Fonts.xaml"/>
+=======
+>>>>>>> parent of 3b05cd5 (Added leaderboard, post-game views and updated menu screen.)
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
