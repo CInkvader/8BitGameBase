@@ -15,9 +15,9 @@
 
         <StackPanel Margin="0 120 0 50" Width="900">
             <TextBlock Text="TOP 10 PLAYERS" Foreground="{StaticResource DefaultForegroundLight}" HorizontalAlignment="Center" VerticalAlignment="Top"
-                       FontSize="65" Height="70" Margin="10" FontFamily="{StaticResource ArcadeFont}"/>
+                       FontSize="60" Height="70" Margin="0 15 0 5" FontFamily="{StaticResource ArcadeFont}"/>
             <Grid x:Name="GridHeader" Width="700" Height="40" Background="#FFB97624" Margin="0 -5 0 0">
-            <!-- Textblocks instantiated through code -->    
+                <!-- Textblocks instantiated through code -->
             </Grid>
             <Grid Height="400" Margin="50 10 50 0">
                 <ListView x:Name="lvLeaderboard" Background="Transparent" BorderThickness="0" Height="400" Width="700" VerticalAlignment="Top"
@@ -32,5 +32,9 @@
                         FontSize="20" HorizontalAlignment="Right" Margin="0 11 1 0" Click="BtnNext_Click"/>
             </Grid>
         </StackPanel>
+
+        <TextBlock Text="{Binding DifficultyText}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+           Height="50" Width="300" Margin="40 0 0 100" TextAlignment="Center"
+           FontSize="40" Foreground="#FFB97624" FontFamily="{StaticResource ArcadeFont}"/>
     </Grid>
 </Page>

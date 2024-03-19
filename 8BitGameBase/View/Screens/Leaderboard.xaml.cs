@@ -1,6 +1,7 @@
 ﻿using _8BitGameBase.Backend;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,13 +18,24 @@ using System.Windows.Shapes;
 
 namespace _8BitGameBase.View.Screens
 {
-    public partial class Leaderboard : Page
+    public partial class Leaderboard : Page, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private object? _previousPage = null;
         private int _difficultyView = 0;
 
+        private string _difficultyText = string.Empty;
+
+        public string DifficultyText
+        {
+            get { return _difficultyText; }
+            set { _difficultyText = value; OnPropertyChanged(); }
+        }
+
         public Leaderboard(object data)
         {
+            DataContext = this;
             _previousPage = data ?? new MainMenu();
             InitializeComponent();
 
@@ -36,10 +48,10 @@ namespace _8BitGameBase.View.Screens
 
         private void InitializeHeader()
         {
-            string[] headers = { "Rank", "Name", "difficulty", "Round", "Play Time", "Score" };
-            float[] gridScale = { 1f, 2.5f, 2f, 1f, 1.5f, 1.5f };
+            string[] headers = { "Rank", "Name", "Round", "Play Time", "Score" };
+            float[] gridScale = { 1f, 3f, 2f, 2f, 2f };
 
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 GridHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(gridScale[i], GridUnitType.Star) });
                 TextBlock textBlock = AddTextBlock(headers[i]);
@@ -55,20 +67,19 @@ namespace _8BitGameBase.View.Screens
             int i = 1;
             foreach (ScoreRecord record in LeaderboardManager.GetTopScores(difficultyFilter))
             {
-                float[] gridScale = { 1f, 2.5f, 2f, 1f, 1.5f, 1.5f };
+                float[] gridScale = { 1f, 3f, 2f, 2f, 2f };
                 ListViewItem item = new();
                 Grid grid = new();
                 grid.Width = 700;
 
                 TextBlock rank = AddTextBlock((i++).ToString());
                 TextBlock name = AddTextBlock(record.PlayerName);
-                TextBlock difficulty = AddTextBlock(record.DifficultyFormatted);
                 TextBlock round = AddTextBlock(record.HighestRound.ToString());
                 TextBlock playtime = AddTextBlock(record.PlaytimeFormatted);
                 TextBlock score = AddTextBlock(record.Score.ToString());
-                TextBlock[] textBlocks = { rank, name, difficulty, round, playtime, score };
+                TextBlock[] textBlocks = { rank, name, round, playtime, score };
 
-                for (int j = 0; j < 6; ++j)
+                for (int j = 0; j < 5; ++j)
                 {
                     grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(gridScale[j], GridUnitType.Star) });
                     grid.Children.Add(textBlocks[j]);
@@ -126,18 +137,27 @@ namespace _8BitGameBase.View.Screens
             switch (_difficultyView)
             {
                 case 1:
+                    DifficultyText = "EASY";
                     BtnPrevious.Visibility = Visibility.Collapsed;
                     break;
                 case 2:
+                    DifficultyText = "NORMAL";
                     BtnPrevious.Visibility = Visibility.Visible;
                     break;
                 case 3:
+                    DifficultyText = "HARD";
                     BtnNext.Visibility = Visibility.Visible;
                     break;
                 case 4:
+                    DifficultyText = "EXTREME";
                     BtnNext.Visibility = Visibility.Collapsed;
                     break;
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
     }
 }

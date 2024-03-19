@@ -40,7 +40,8 @@ namespace _8BitGameBase
 
         private string _volumeSettingsPath = string.Empty;
         private bool _firstStartup = true;
-        
+
+        public static MediaPlayer StartupSound { get { return _startupSound; } }
         public static MediaPlayer MenuBGM { get { return _menuBGM; } private set { _menuBGM = value; } }
         public static MediaPlayer GameBGM { get { return _gameBGM; } private set { _gameBGM = value; } }
         public static MediaPlayer GameCorrectAnswer { get { return _gameCorrectAnswer; } private set { _gameCorrectAnswer = value; } }
@@ -269,6 +270,7 @@ namespace _8BitGameBase
                     break;
             }
             GameSettings.SetSliderValues(values);
+            StartupSound.Volume = values[0];
         }
         private void SaveSoundSettings()
         {
