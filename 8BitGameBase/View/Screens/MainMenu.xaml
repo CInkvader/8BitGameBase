@@ -33,12 +33,11 @@
 
             <Button x:Name="BtnLeaderboard" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="LEADERBOARD" Height="50" Width="230" Margin="0 20 0 0" Click="BtnLeaderboard_Click"/>
-
-            <Button x:Name="BtnOptions" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
-                    Content="OPTIONS" Height="50" Width="230" Margin="0 20 0 0" Click="BtnOptions_Click"/>
-
+            <Button x:Name="BtnSettings" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
+                    Content="SETTINGS" Height="50" Width="230" Margin="0 20 0 0" Click="BtnSettings_Click"/>
             <Button x:Name="BtnExit" Style="{StaticResource btnMainStyle}" FontFamily="{StaticResource ArcadeFont}"
                     Content="EXIT" Height="50" Width="230" Margin="0 20 0 0" Click="BtnExit_Click"/>
         </StackPanel>
+        <UserControls:GameSettings x:Name="ucGameSettings" Grid.RowSpan="3" Visibility="Collapsed"/>
     </Grid>
 </Page>

@@ -14,7 +14,6 @@ namespace _8BitGameBase.Backend
     static class LeaderboardManager
     {
         private static List<ScoreRecord> _leaderboard = new List<ScoreRecord>();
-        private static ScoreRecord? _recordToSave = null;
 
         private static string _CSVPath = string.Empty;
 
@@ -29,45 +28,62 @@ namespace _8BitGameBase.Backend
                 File.Create(_CSVPath);
         }
 
-        public static void AddToLeaderboard(string playerName, int score)
+        public static void AddToLeaderboard(ScoreRecord newRecord)
         {
-            ScoreRecord newRecord = new ScoreRecord()
-            {
-                PlayerName = playerName,
-                Score = score
-            };
-            _recordToSave = newRecord;
-            SaveLeaderboard();
-            _recordToSave = null;
-
+            WriteToCSV(newRecord);
             _leaderboard.Add(newRecord);
             _leaderboard = _leaderboard.OrderBy(ScoreRecord => ScoreRecord.Score).ToList();
         }
 
-        public static List<ScoreRecord> GetTopScores(int count = 10, bool ascending = false)
+        public static List<ScoreRecord> GetTopScores(int difficulty, int count = 10, bool ascending = false)
         {
             List<ScoreRecord> record = new List<ScoreRecord>();
 
             if (!ascending)
             {
-                for (int i = _leaderboard.Count - 1, j = 0; i >= 0 && j < count; --i, ++j)
+                int i = _leaderboard.Count - 1;
+                int j = 0;
+                while (!ascending && (i >= 0 && j < count))
                 {
-                    record.Add(new ScoreRecord() { PlayerName = _leaderboard[i].PlayerName, Score = _leaderboard[i].Score });
+                    if (_leaderboard[i].Difficulty == difficulty)
+                    {
+                        record.Add(new ScoreRecord()
+                        {
+                            PlayerName = _leaderboard[i].PlayerName,
+                            Score = _leaderboard[i].Score,
+                            Difficulty = _leaderboard[i].Difficulty,
+                            Playtime = _leaderboard[i].Playtime,
+                            HighestRound = _leaderboard[i].HighestRound
+                        });
+                        ++j;
+                    }
+                    --i;
                 }
             }
             else
             {
-                for (int i = 0; i < _leaderboard.Count && i < count; ++i)
+                int i = 0;
+                int j = 0;
+
+                while (i < _leaderboard.Count && j < count)
                 {
-                    record.Add(new ScoreRecord() { PlayerName = _leaderboard[i].PlayerName, Score = _leaderboard[i].Score });
+                    if (_leaderboard[i].Difficulty == difficulty)
+                    {
+                        record.Add(new ScoreRecord()
+                        {
+                            PlayerName = _leaderboard[i].PlayerName,
+                            Score = _leaderboard[i].Score,
+                            Difficulty = _leaderboard[i].Difficulty,
+                            Playtime = _leaderboard[i].Playtime,
+                            HighestRound = _leaderboard[i].HighestRound
+                        });
+
+                        ++j;
+                    }
+                    ++i;
                 }
             }
             return record;
-        }
-
-        public static void SaveLeaderboard()
-        {
-            WriteToCSV();
         }
 
         private static void RetrieveFromCSV()
@@ -85,7 +101,7 @@ namespace _8BitGameBase.Backend
                     {
                         continue;
                     }
-                    if (fields.Length != 2)
+                    if (fields.Length != 5)
                     {
                         continue;
                     }
@@ -93,28 +109,29 @@ namespace _8BitGameBase.Backend
                     ScoreRecord scoreRecord = new ScoreRecord()
                     {
                         PlayerName = fields[0],
-                        Score = int.TryParse(fields[1], out int score) ? score : 0
+                        Score = int.TryParse(fields[1], out int score) ? score : 0,
+                        Difficulty = int.TryParse(fields[2], out int difficulty) ? difficulty : 0,
+                        Playtime = int.TryParse(fields[3], out int playtime) ? playtime : 0,
+                        HighestRound = int.TryParse(fields[4], out int highestRound) ? highestRound : 0
                     };
                     _leaderboard.Add(scoreRecord);
                 }
             }
             _leaderboard = _leaderboard.OrderBy(ScoreRecord => ScoreRecord.Score).ToList();
         }
-
-        private static void WriteToCSV()
+        
+        private static void WriteToCSV(ScoreRecord recordToSave)
         {
-            if (_recordToSave == null)
-            {
-                return;
-            }
-            
             using (StreamWriter writer = new StreamWriter(_CSVPath, true))
             {
-                ScoreRecord record = _recordToSave;
+                ScoreRecord record = recordToSave;
 
                 StringBuilder data = new StringBuilder();
                 data.Append(record.PlayerName).Append(',');
-                data.Append(record.Score);
+                data.Append(record.Score).Append(',');
+                data.Append(record.Difficulty).Append(',');
+                data.Append(record.Playtime).Append(',');
+                data.Append(record.HighestRound);
 
                 writer.WriteLine(data.ToString());
             }

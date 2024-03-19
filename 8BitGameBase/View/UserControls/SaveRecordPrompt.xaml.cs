@@ -50,7 +50,7 @@ namespace _8BitGameBase.View.UserControls
         private void NameEntry_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             char input = e.Text.ToUpper()[0];
-            if (!(input >= 65 && input <= 90))
+            if (!(input >= 65 && input <= 90) && !(input >= 48 && input <= 57) && input != 95)
             {
                 e.Handled = true;
             }

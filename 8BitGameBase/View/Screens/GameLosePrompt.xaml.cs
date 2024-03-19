@@ -24,62 +24,144 @@ namespace _8BitGameBase.View.Screens
 
         private readonly object? _previousPage = null;
         private int _playerScore = 0;
-        private int _selectedDifficulty = 0;
         private double _difficultyMultiplier = 0;
+        private bool _isRecordSaved = false;
+        private bool _isRetryOption = false;
 
-        public GameLosePrompt(object data, DifficultySelection.GameDifficulty gameDifficulty, double multiplier, int playerScore = 0)
-        {
-            DataContext = this;
-            _previousPage = data ?? new Menu();
-            _selectedDifficulty = (int)gameDifficulty;
-            _difficultyMultiplier = multiplier;
+        private ScoreRecord _playerRecord = new();
 
-            InitializeComponent();
-            PlayerScore = playerScore;
-
-            SavePrompt.BtnSavePromptBack.Click += BtnSavePromptBack_Click;
-            SavePrompt.BtnSavePromptSave.Click += BtnSavePromptSave_Click;
-        }
         public int PlayerScore
         {
             get { return _playerScore; }
             set { _playerScore = value; OnPropertyChanged(); }
         }
 
+        public GameLosePrompt(object data, double multiplier, object scoreRecord)
+        {
+            DataContext = this;
+            _previousPage = data ?? new Menu();
+
+            ScoreRecord playerRecord = (ScoreRecord)scoreRecord;
+            _playerRecord = playerRecord;
+
+            _difficultyMultiplier = multiplier;
+            PlayerScore = playerRecord.Score;
+
+            InitializeComponent();
+
+            MainWindow.MenuBGM.Play();
+            InitializeConfirmationPrompt();
+            ucSavePrompt.BtnSavePromptBack.Click += BtnSavePromptBack_Click;
+            ucSavePrompt.BtnSavePromptSave.Click += BtnSavePromptSave_Click;
+        }
+        private void InitializeConfirmationPrompt()
+        {
+            ucConfirmationPrompt.BtnOption1.Width += 20;
+            ucConfirmationPrompt.BtnOption2.Width += 20;
+
+            ucConfirmationPrompt.PromptDescription = "SCORE HAS NOT YET BEEN  SAVED";
+            ucConfirmationPrompt.FirstOptionContent = "DISCARD SCORE";
+            ucConfirmationPrompt.SecondOptionContent = "SAVE SCORE";
+
+            ucConfirmationPrompt.BtnOption1.Click += BtnConfirmOption1_Click;
+            ucConfirmationPrompt.BtnOption2.Click += BtnConfirmOption2_Click;
+        }
+
         private void BtnRetry_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
+            _isRetryOption = true;
+            if (!_isRecordSaved)
+            {
+                ConfirmPrompt();
+                return;
+            }
+
             if (_previousPage != null)
             {
+                MainWindow.StopMenuSoundMedia();
                 Page previousPage = (Page)_previousPage;
-                MainWindow.ChangeScreen(new MainGame(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty, _difficultyMultiplier));
+                MainWindow.ChangeScreen(new MainGame(previousPage, (DifficultySelection.GameDifficulty)_playerRecord.Difficulty, _difficultyMultiplier));
             }
-        }
-        private void BtnSaveRecord_Click(object sender, RoutedEventArgs e)
-        {
-            stpLosePrompt.IsEnabled = false;
-            stpLosePrompt.Visibility = Visibility.Collapsed;
-            SavePrompt.Visibility = Visibility.Visible;
         }
         private void BtnMenu_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeScreen(new MainMenu());
+            MainWindow.PlayButtonSound();
+            _isRetryOption = false;
+            if (!_isRecordSaved)
+            {
+                ConfirmPrompt();
+                return;
+            }
+            
+            Page previousPage = _previousPage == null ? new MainMenu() : (Page)_previousPage;
+            MainWindow.ChangeScreen(previousPage);
+        }
+        private void BtnSaveRecord_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            stpLosePrompt.Visibility = Visibility.Collapsed;
+            ucSavePrompt.Visibility = Visibility.Visible;
+        }
+        private void ConfirmPrompt()
+        {
+            stpLosePrompt.Visibility = Visibility.Collapsed;
+
+            BtnConfirmPromptBack.Visibility = Visibility.Visible;
+            ucConfirmationPrompt.Visibility = Visibility.Visible;
         }
 
         private void BtnSavePromptBack_Click(object sender, RoutedEventArgs e)
         {
-            SavePrompt.NameInput = string.Empty;
-            stpLosePrompt.IsEnabled = true;
-            SavePrompt.Visibility = Visibility.Collapsed;
+            MainWindow.PlayButtonSound();
+            ucSavePrompt.NameInput = string.Empty;
+            ucSavePrompt.Visibility = Visibility.Collapsed;
             stpLosePrompt.Visibility = Visibility.Visible;
         }
         private void BtnSavePromptSave_Click(object sender, RoutedEventArgs e)
         {
-            LeaderboardManager.AddToLeaderboard(SavePrompt.NameInput, PlayerScore);
-            if (_previousPage != null)
+            MainWindow.PlayButtonSound();
+
+            if (ucSavePrompt.NameInput.Length == 0)
             {
-                Page previousPage = (Page)_previousPage;
-                MainWindow.ChangeScreen(previousPage);
+                return;
             }
+            _playerRecord.PlayerName = ucSavePrompt.NameInput;
+            LeaderboardManager.AddToLeaderboard(_playerRecord);
+            _isRecordSaved = true;
+
+            ucSavePrompt.NameInput = string.Empty;
+            stpLosePrompt.IsEnabled = true;
+            ucSavePrompt.Visibility = Visibility.Collapsed;
+            BtnSaveRecord.Visibility = Visibility.Collapsed;
+            stpLosePrompt.Visibility = Visibility.Visible;
+        }
+
+        private void BtnConfirmOption1_Click(object sender, RoutedEventArgs e)
+        {
+            _isRecordSaved = true; // To simply override events below and change page
+            if (_isRetryOption)
+            {
+                BtnRetry_Click(BtnRetry, e);
+            }
+            else
+            {
+                BtnMenu_Click(BtnMenu, e);
+            }
+        }
+        private void BtnConfirmOption2_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            BtnConfirmPromptBack.Visibility = Visibility.Collapsed;
+            ucConfirmationPrompt.Visibility = Visibility.Collapsed;
+            ucSavePrompt.Visibility = Visibility.Visible;
+        }
+        private void BtnConfirmPromptBack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            BtnConfirmPromptBack.Visibility = Visibility.Collapsed;
+            ucConfirmationPrompt.Visibility = Visibility.Collapsed;
+            stpLosePrompt.Visibility = Visibility.Visible;
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

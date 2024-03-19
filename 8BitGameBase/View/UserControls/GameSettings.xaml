@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="_8BitGameBase.View.UserControls.GameSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_8BitGameBase.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             MinHeight="{StaticResource FrameHeight}" MinWidth="{StaticResource FrameWidth}"
+             Background="{StaticResource GameBackground}">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource ArcadeFont}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Button x:Name="BtnSettingsBack" Style="{StaticResource btnBackStyle}" Content="Back" FontFamily="{StaticResource ArcadeFont}"/>
+        <StackPanel Width="720" Height="550" Margin="0 0 0 25">
+            <TextBlock Text="GAME OPTIONS" HorizontalAlignment="Center" FontSize="70" Margin="0 20 0 0"/>
+            <local:SliderControl Margin="0 40 0 0" x:Name="sldMasterVolume" Tag="0"/>
+            <local:SliderControl Margin="0 40 0 0" x:Name="sldMusicVolume" Tag="1"/>
+            <local:SliderControl Margin="0 40 0 0" x:Name="sldEffectsVolume" Tag="2"/>
+            <local:SliderControl Margin="0 40 0 0" x:Name="sldUIVolume" Tag="3"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

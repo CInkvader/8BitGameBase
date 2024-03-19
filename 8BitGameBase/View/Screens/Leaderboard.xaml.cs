@@ -20,65 +20,124 @@ namespace _8BitGameBase.View.Screens
     public partial class Leaderboard : Page
     {
         private object? _previousPage = null;
+        private int _difficultyView = 0;
+
         public Leaderboard(object data)
         {
             _previousPage = data ?? new MainMenu();
             InitializeComponent();
 
-            lvLeaderboard.ItemContainerStyle = (Style)this.FindResource("lvItemLeaderboard");
-            RetrieveLeaderboard();
+            lvLeaderboard.ItemContainerStyle = (Style)FindResource("lvItemLeaderboard");
+
+            _difficultyView = 1; // 1 - Easy, 2 - Normal, 3 - Hard, 4 - Extreme
+            InitializeHeader();
+            UpdatePage();
         }
 
-        private void RetrieveLeaderboard()
+        private void InitializeHeader()
+        {
+            string[] headers = { "Rank", "Name", "difficulty", "Round", "Play Time", "Score" };
+            float[] gridScale = { 1f, 2.5f, 2f, 1f, 1.5f, 1.5f };
+
+            for (int i = 0; i < 6; ++i)
+            {
+                GridHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(gridScale[i], GridUnitType.Star) });
+                TextBlock textBlock = AddTextBlock(headers[i]);
+                textBlock.Margin = new Thickness(0,10,0,0);
+
+                GridHeader.Children.Add(textBlock);
+                Grid.SetColumn(textBlock, i);
+            }
+        }
+
+        private void RetrieveLeaderboard(int difficultyFilter)
         {
             int i = 1;
-            foreach (ScoreRecord record in LeaderboardManager.GetTopScores())
+            foreach (ScoreRecord record in LeaderboardManager.GetTopScores(difficultyFilter))
             {
+                float[] gridScale = { 1f, 2.5f, 2f, 1f, 1.5f, 1.5f };
                 ListViewItem item = new();
                 Grid grid = new();
-                grid.Width = 670;
-                grid.Margin = new Thickness(20,0,20,0);
+                grid.Width = 700;
 
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
+                TextBlock rank = AddTextBlock((i++).ToString());
+                TextBlock name = AddTextBlock(record.PlayerName);
+                TextBlock difficulty = AddTextBlock(record.DifficultyFormatted);
+                TextBlock round = AddTextBlock(record.HighestRound.ToString());
+                TextBlock playtime = AddTextBlock(record.PlaytimeFormatted);
+                TextBlock score = AddTextBlock(record.Score.ToString());
+                TextBlock[] textBlocks = { rank, name, difficulty, round, playtime, score };
 
-                TextBlock rank = new()
+                for (int j = 0; j < 6; ++j)
                 {
-                    Text = (i++).ToString(),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    FontFamily = (FontFamily)this.FindResource("ArcadeFont")
-                };
-                TextBlock name = new()
-                {
-                    Text = record.PlayerName,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    FontFamily = (FontFamily)this.FindResource("ArcadeFont")
-                };
-                TextBlock score = new()
-                {
-                    Text = record.Score.ToString(),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    FontFamily = (FontFamily)this.FindResource("ArcadeFont")
-                };
-                
-                grid.Children.Add(rank);
-                grid.Children.Add(name);
-                grid.Children.Add(score);
-
-                Grid.SetColumn(rank, 0);
-                Grid.SetColumn(name, 1);
-                Grid.SetColumn(score, 2);
+                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(gridScale[j], GridUnitType.Star) });
+                    grid.Children.Add(textBlocks[j]);
+                    Grid.SetColumn(textBlocks[j], j);
+                }
 
                 item.Content = grid;
                 lvLeaderboard.Items.Add(item);
             }
         }
 
+        private TextBlock AddTextBlock(string text)
+        {
+            TextBlock textblock = new()
+            {
+                Text = text,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontFamily = (FontFamily)FindResource("ArcadeFont"),
+                TextAlignment = TextAlignment.Center,
+                Foreground = new SolidColorBrush(Colors.White),
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 20
+            };
+
+            return textblock;
+        }
+
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             if (_previousPage != null)
                 MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
+        }
+
+        private void BtnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            if (_difficultyView > 0)
+                --_difficultyView;
+            UpdatePage();
+        }
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            if (_difficultyView < 4)
+                ++_difficultyView;
+            UpdatePage();
+        }
+
+        private void UpdatePage()
+        {
+            lvLeaderboard.Items.Clear();
+            RetrieveLeaderboard(_difficultyView);
+            switch (_difficultyView)
+            {
+                case 1:
+                    BtnPrevious.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    BtnPrevious.Visibility = Visibility.Visible;
+                    break;
+                case 3:
+                    BtnNext.Visibility = Visibility.Visible;
+                    break;
+                case 4:
+                    BtnNext.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
     }
 }

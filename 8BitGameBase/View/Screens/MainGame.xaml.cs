@@ -44,6 +44,8 @@ namespace _8BitGameBase.View.Screens
         private int _bitAnswer = 0;
         private int _currentRound = 0;
         private int _playerScore = 0;
+        private int _totalPlayTime = 0;
+
         private Storyboard? _barAnimation = null;
         private Storyboard[]? _warningAnimations = [];
 
@@ -51,11 +53,6 @@ namespace _8BitGameBase.View.Screens
         private string _tbGameTimer = string.Empty;
         private string _tbGameRound = string.Empty;
         private string _tbDifficulty = string.Empty;
-
-        MediaPlayer? _backgroundMusic = null;
-        List<MediaPlayer> _buttonSounds = [];
-
-        Uri? _buttonClickSoundPath = null;
 
         public MainGame(object previousPage, DifficultySelection.GameDifficulty gameDifficulty, double difficultyMultiplier)
         {
@@ -81,13 +78,16 @@ namespace _8BitGameBase.View.Screens
             PlayerScore = 0;
 
             InitializeComponent();
+            InitializePrompts();
             LoadGame();
         }
         private async void LoadGame()
         {
+            ucTutorialScreen.Visibility = Visibility.Visible;
+
             SetDifficulty();
-            InitializeButtons();
-            InitializeSounds();
+            SetBGM();
+            InitializeBitButtons();
 
             if (_mainWIndow != null)
                 _mainWIndow.BdTimerBar.Background = (SolidColorBrush)FindResource("DefaultColorMedium_3");
@@ -100,12 +100,14 @@ namespace _8BitGameBase.View.Screens
             GridGame.IsEnabled = true;
             StartGame();
         }
-        private void InitializeButtons()
+        private void InitializeBitButtons()
         {
             for (int i = 0, j = 128; i < 8; ++i)
             {
                 BitButton button = new BitButton();
                 _buttons.Add(button);
+                _buttons[i].VerticalAlignment = VerticalAlignment.Bottom;
+                _buttons[i].Margin = new Thickness(0,0,0,400);
                 _buttons[i].BtnBit.Click += BtnBitClicked;
                 _buttons[i].BtnBit.MouseEnter += BtnBitMouseEnter;
                 _buttons[i].BtnBit.MouseLeave += BtnBitMouseLeave;
@@ -114,53 +116,34 @@ namespace _8BitGameBase.View.Screens
                 ugButtons.Children.Add(button);
             }
         }
-        private void InitializeSounds()
+        private void InitializePrompts()
         {
-            _buttonClickSoundPath = new Uri("Media/Sounds/Effects/ButtonPress_3.mp3", UriKind.RelativeOrAbsolute);
-            _buttonSounds = new List<MediaPlayer>();
-            _backgroundMusic = new MediaPlayer();
-
-            _backgroundMusic.Open(SetBGM());
-            for (int i = 0; i < 10; ++i)
-            {
-                _buttonSounds.Add(new MediaPlayer());
-
-                _buttonSounds[i].Open(_buttonClickSoundPath);
-                _buttonSounds[i].Volume = 0.3f;
-                _buttonSounds[i].MediaEnded += Sound_MediaEnded;
-            }
-        }
-        private void PlayButtonSound()
-        {
-            _buttonSounds[0].Play();
-            _buttonSounds.RemoveAt(0);
-
-            MediaPlayer newSound = new MediaPlayer();
-            newSound.Open(_buttonClickSoundPath);
-            newSound.Volume = 0.1f;
-            newSound.MediaEnded += Sound_MediaEnded;
-            _buttonSounds.Add(newSound);
-        }
-        private void Sound_MediaEnded(object? sender, EventArgs e)
-        {
-            if (sender == null)
-                return;
-            ((MediaPlayer)sender).Close();
+            ucConfirmBackPrompt.BtnOption3.Visibility = Visibility.Visible;
+            ucConfirmBackPrompt.PromptDescription = "GAME MENU OPTIONS";
+            ucConfirmBackPrompt.FirstOptionContent = "BACK  TO GAME";
+            ucConfirmBackPrompt.SecondOptionContent = "BACK  TO MENU";
+            ucConfirmBackPrompt.ThirdOptionContent = "SETTINGS";
+            ucConfirmBackPrompt.BtnOption1.Click += BtnPromptBackToGame_Click;
+            ucConfirmBackPrompt.BtnOption2.Click += BtnPromptBackToMenu_Click;
+            ucConfirmBackPrompt.BtnOption3.Click += BtnPromptSettings_Click;
+            ucGameSettings.BtnSettingsBack.Click += BtnSettingsBack_Click;
         }
 
-        private Uri SetBGM()
+        private void SetBGM()
         {
+            Uri? gameBGMPath = null;
             switch (_selectedDifficulty)
             {
                 case 1:
-                    return new Uri("Media/Sounds/BGM/Music_1.mp3", UriKind.RelativeOrAbsolute);
+                    gameBGMPath = new Uri("Media/Sounds/BGM/Music_1.mp3", UriKind.RelativeOrAbsolute); break;
                 case 2:
-                    return new Uri("Media/Sounds/BGM/Music_2.mp3", UriKind.RelativeOrAbsolute);
+                    gameBGMPath = new Uri("Media/Sounds/BGM/Music_2.mp3", UriKind.RelativeOrAbsolute); break;
                 case 3:
-                    return new Uri("Media/Sounds/BGM/Music_3.mp3", UriKind.RelativeOrAbsolute);
+                    gameBGMPath = new Uri("Media/Sounds/BGM/Music_3.mp3", UriKind.RelativeOrAbsolute); break;
                 default:
-                    return new Uri("Media/Sounds/BGM/Music_4.mp3", UriKind.RelativeOrAbsolute);
+                    gameBGMPath = new Uri("Media/Sounds/BGM/Music_4.mp3", UriKind.RelativeOrAbsolute); break;
             }
+            MainWindow.GameBGM.Open(gameBGMPath);
         }
         private void SetDifficulty()
         {
@@ -195,9 +178,9 @@ namespace _8BitGameBase.View.Screens
         private void StartGame()
         {
             if (_mainWIndow != null)
-                _mainWIndow.BdTimerBar.Background = (SolidColorBrush)this.FindResource("DefaultColorMedium_2");
-            _backgroundMusic?.Play();
+                _mainWIndow.BdTimerBar.Background = (SolidColorBrush)FindResource("DefaultColorMedium_2");
 
+            MainWindow.GameBGM.Play();
             NewRound();
         }
 
@@ -211,6 +194,7 @@ namespace _8BitGameBase.View.Screens
                 GameFinish();
                 return;
             }
+            ++_totalPlayTime;
             if (time <= 10 && _warningAnimations == null)
             {
                 PlayWarningAnimation();
@@ -251,6 +235,8 @@ namespace _8BitGameBase.View.Screens
         {
             if (_bitAnswer.ToString() == _tbDecimalQuestion)
             {
+                MainWindow.GameCorrectAnswer.Play();
+
                 _timer.Stop();
                 StopAnimations();
                 PlayBlinkAnimation();
@@ -276,6 +262,13 @@ namespace _8BitGameBase.View.Screens
 
             _timer.Start();
             TimerBarPlayAnimation();
+            if (_selectedDifficulty >= 3)
+            {
+                foreach (BitButton button in _buttons)
+                {
+                    button.PlayValueFadeAnimation();
+                }
+            }
         }
         private void CalculateScore()
         {
@@ -289,25 +282,130 @@ namespace _8BitGameBase.View.Screens
                 button.BtnContent = "0";
             }
         }
-        private void GameFinish()
+        private async void GameFinish()
         {
             _timer.Stop();
-            StopAnimations();
-            ClearGameElements();
+            SetGameLoseMedia();
 
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            PlayGameFinishAnimation();
+
+            await Task.Delay(TimeSpan.FromSeconds(2.5));
             if (_previousPage != null)
             {
                 Page previousPage = (Page)_previousPage;
-                MainWindow.ChangeScreen(new GameLosePrompt(previousPage, (DifficultySelection.GameDifficulty)_selectedDifficulty, _difficultyMultiplier, PlayerScore));
+                DifficultySelection.GameDifficulty difficulty = (DifficultySelection.GameDifficulty)_selectedDifficulty;
+
+                ScoreRecord playerRecord = new ScoreRecord()
+                {
+                    Score = PlayerScore,
+                    Difficulty = (_selectedDifficulty),
+                    Playtime = _totalPlayTime,
+                    HighestRound = _currentRound
+                };
+
+                MainWindow.ChangeScreen(new GameLosePrompt(previousPage, _difficultyMultiplier, playerRecord));
             }
         }
+        private async void PlayGameFinishAnimation()
+        {
+            MainWindow.GameLoseSound.Play();
+            TbRound.Visibility = Visibility.Collapsed;
+
+            foreach (BitButton button in _buttons) {
+                Thickness bounceMargin = button.Margin;
+                bounceMargin.Bottom += 40;
+
+                Thickness dropMargin = bounceMargin;
+                bounceMargin.Bottom = 0;
+
+                ThicknessAnimationUsingKeyFrames bounceAnimation = new()
+                {
+                    Duration = TimeSpan.FromSeconds(0.5)
+                };
+                bounceAnimation.KeyFrames.Add(new SplineThicknessKeyFrame(dropMargin));
+                bounceAnimation.KeyFrames.Add(new SplineThicknessKeyFrame(bounceMargin));
+
+                Storyboard storyboard = new();
+                Storyboard.SetTarget(bounceAnimation, button);
+                Storyboard.SetTargetProperty(bounceAnimation, new PropertyPath(MarginProperty));
+
+                storyboard.Children.Add(bounceAnimation);
+                storyboard.Begin();
+                await Task.Delay(TimeSpan.FromSeconds(0.12));
+            }
+        }
+        private void SetGameLoseMedia()
+        {
+            if (_selectedDifficulty >= 3)
+            {
+                foreach (BitButton button in _buttons)
+                {
+                    button.StopAnimation();
+                }
+            }
+            ugButtons.IsEnabled = false;
+            MainWindow.GameLoseFallSound.Play();
+
+            ToggleExitPrompt(false);
+            ucGameSettings.Visibility = Visibility.Collapsed;
+            StopAnimations();
+            StopGameMedia();
+
+            BtnMainGameBack.Visibility = Visibility.Collapsed;
+            TbDecimalQuestion = "TIME'S UP!";
+        }
+
         private void BtnMainGameBack_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
+            ToggleExitPrompt(true);
+        }
+        private void BtnPromptBackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
             _timer.Stop();
             StopAnimations();
-            ClearGameElements();
+            StopGameMedia();
 
             MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
+        }
+        private void BtnPromptBackToGame_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            ToggleExitPrompt(false);
+        }
+        private void ToggleExitPrompt(bool showPrompt = true)
+        {
+            if (showPrompt)
+            {
+                TbRound.Visibility = Visibility.Collapsed;
+                stpGameContents.Visibility = Visibility.Collapsed;
+                BtnMainGameBack.Visibility = Visibility.Collapsed;
+
+                ucConfirmBackPrompt.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ucConfirmBackPrompt.Visibility = Visibility.Collapsed;
+
+                TbRound.Visibility = Visibility.Visible;
+                stpGameContents.Visibility = Visibility.Visible;
+                BtnMainGameBack.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BtnSettingsBack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            ucGameSettings.Visibility = Visibility.Collapsed;
+            ucConfirmBackPrompt.Visibility = Visibility.Visible;
+        }
+        private void BtnPromptSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            ucConfirmBackPrompt.Visibility = Visibility.Collapsed;
+            ucGameSettings.Visibility = Visibility.Visible;
         }
 
         private void BtnBitClicked(object? sender, RoutedEventArgs e)
@@ -315,7 +413,7 @@ namespace _8BitGameBase.View.Screens
             if (sender == null)
                 return;
 
-            PlayButtonSound();
+            MainWindow.PlayButtonSound();
             int bitValue = 0;
             foreach (BitButton button in _buttons)
             {
@@ -488,14 +586,14 @@ namespace _8BitGameBase.View.Screens
             _mainWIndow.BdTimer.Background = defaultColor;
             _mainWIndow.BdCornerLight.Background = defaultColor;
         }
-        private void ClearGameElements()
+        private void StopGameMedia()
         {
             if (_barAnimation == null || _mainWIndow == null)
                 return;
+            BdCover.Visibility = Visibility.Visible;
             _mainWIndow.BdTimerBar.Width = 0;
 
-            _backgroundMusic?.Stop();
-            _backgroundMusic?.Close();
+            MainWindow.GameBGM.Stop();
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

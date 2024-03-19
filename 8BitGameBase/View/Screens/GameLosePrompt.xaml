@@ -19,7 +19,7 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <StackPanel x:Name="stpLosePrompt" VerticalAlignment="Center" Margin="0 0 0 50">
+        <StackPanel x:Name="stpLosePrompt" VerticalAlignment="Center" Margin="0 0 0 50" Visibility="Visible">
             <TextBlock Text="GAME OVER" FontSize="125" TextAlignment="Center" Foreground="{StaticResource DefaultForegroundLight}" Margin="0"/>
             
             <StackPanel Margin="0 30 0 50" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -29,16 +29,19 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="BtnRetry" Style="{StaticResource btnMainStyle}" Content="Retry" FontFamily="{StaticResource ArcadeFont}"
-                    Width="200" Height="90" Margin="0 0 0 30" Click="BtnRetry_Click"/>
+                    Width="200" Height="90" Margin="0 0 15 30" Click="BtnRetry_Click"/>
                 
                 <Button x:Name="BtnSaveRecord" Style="{StaticResource btnMainStyle}" Content="Save score" FontFamily="{StaticResource ArcadeFont}"
-                    Width="200" Height="90" Margin="30 0 30 30" Click="BtnSaveRecord_Click"/>
+                    Width="200" Height="90" Margin="15 0 15 30" Click="BtnSaveRecord_Click"/>
                 
                 <Button x:Name="BtnMenu" Style="{StaticResource btnMainStyle}" Content="Back to Menu" FontFamily="{StaticResource ArcadeFont}"
-                    Width="200" Height="90" Margin="0 0 0 30" Click="BtnMenu_Click"/>
+                    Width="200" Height="90" Margin="15 0 0 30" Click="BtnMenu_Click"/>
             </StackPanel>
         </StackPanel>
 
-        <UserControls:SaveRecordPrompt x:Name="SavePrompt" Visibility="Collapsed"/>
+        <UserControls:SaveRecordPrompt x:Name="ucSavePrompt" Visibility="Collapsed"/>
+        <UserControls:ConfirmationPrompt x:Name="ucConfirmationPrompt" Margin="0 -150 0 0" Visibility="Collapsed"/>
+        <Button x:Name="BtnConfirmPromptBack" Style="{StaticResource btnBackStyle}" Click="BtnConfirmPromptBack_Click"
+                Content="Back" FontFamily="{StaticResource ArcadeFont}" Visibility="Collapsed"/>
     </Grid>
 </Page>

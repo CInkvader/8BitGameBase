@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Styles/ListViewStyles.xaml"/>
                 <ResourceDictionary Source="Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="Styles/Animations.xaml"/>
+                <ResourceDictionary Source="Styles/SliderStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

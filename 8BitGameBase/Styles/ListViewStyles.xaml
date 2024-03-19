@@ -12,7 +12,6 @@
                             CornerRadius="0">
                         <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
                     </Border>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#FF5C2E78"/>
@@ -21,12 +20,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="60 5 60 5"/>
+        <Setter Property="Margin" Value="0 5 0 5"/>
         <Setter Property="Background" Value="#FF5C2E78"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="22"/>
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="BorderBrush" Value="#FF5C2E78"/>
-        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
 </ResourceDictionary>

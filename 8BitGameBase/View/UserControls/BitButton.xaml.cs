@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace _8BitGameBase.View.UserControls
 {
@@ -38,6 +39,29 @@ namespace _8BitGameBase.View.UserControls
         {
             BtnContent = _btnContent == "0" ? "1" : "0";
         }
+
+        public void PlayValueFadeAnimation()
+        {
+            DoubleAnimation animation = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(5),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+            EasingFunctionBase easingFunction = new PowerEase();
+            easingFunction.EasingMode = EasingMode.EaseOut;
+            animation.EasingFunction = easingFunction;
+
+            stpDecimalValue.BeginAnimation(OpacityProperty, animation);
+        }
+        public void StopAnimation()
+        {
+            stpDecimalValue.BeginAnimation(OpacityProperty, null);
+            stpDecimalValue.Opacity = 1;
+        }
+
         private void OnPropertyChanged([CallerMemberName]string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

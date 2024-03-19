@@ -50,6 +50,7 @@ namespace _8BitGameBase.View.Screens
 
         private void BtnDiffculty_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             if ((Button)sender != _selectedButton)
             {
                 BtnBitResizeAnimation(_selectedButton ?? (Button)sender, [60, 50], [210, 200]);
@@ -110,6 +111,7 @@ namespace _8BitGameBase.View.Screens
         }
         private void BtnDifficultyBack_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             MainWindow.ChangeScreen((Page)(_previousPage ?? new MainMenu()));
         }
 

@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="GridGame" Grid.Row="0" IsEnabled="False" Visibility="Collapsed">
-            <Button x:Name="BtnMainGameBack" Style="{StaticResource btnBackStyle}" Content="Back"
+            <Button x:Name="BtnMainGameBack" Style="{StaticResource btnBackStyle}" Content="MENU"
                     FontFamily="{StaticResource ArcadeFont}" Click="BtnMainGameBack_Click"/>
 
             <TextBlock Text="{Binding TbGameTimer}" HorizontalAlignment="Right" VerticalAlignment="Bottom"
@@ -37,10 +37,6 @@
                        Height="50" Width="100" Margin="0 0 90 30" TextAlignment="Center"
                        FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
 
-            <TextBlock x:Name="TbRound" Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
-               Height="60" Width="300" Margin="35 150 0 0" TextAlignment="Center"
-               FontSize="50" Foreground="{StaticResource DefaultForegroundLight}"/>
-
             <TextBlock Text="Difficulty" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        Height="20" Width="100" Margin="111 0 0 105" TextAlignment="Center"
                        FontSize="15" Foreground="{StaticResource DefaultForegroundLight}"/>
@@ -48,16 +44,28 @@
                        Height="50" Width="100" Margin="111 0 0 55" TextAlignment="Center"
                        FontSize="30" Foreground="{StaticResource DefaultForegroundLight}"/>
 
-            <StackPanel VerticalAlignment="Center" Margin="0 0 0 50">
-                <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" Width="200"
+            <TextBlock x:Name="TbRound" Text="{Binding TbGameRound}" HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Height="60" Width="300" Margin="35 150 0 0" TextAlignment="Center"
+                       FontSize="50" Foreground="{StaticResource DefaultForegroundLight}"/>
+
+            <StackPanel x:Name="stpGameContents" VerticalAlignment="Top" Margin="0,285,0,0">
+                <TextBlock Text="{Binding TbDecimalQuestion}" TextAlignment="Center" Height="70" Width="600"
                            HorizontalAlignment="Center" Margin="0" FontSize="70" Foreground="{StaticResource DefaultForegroundLight}"/>
 
                 <UniformGrid x:Name="ugButtons" Grid.Row="1" Rows="1" Columns="8"
-                             Height="150" Width="750" Margin="0">
+                             Height="550" Width="750" Margin="0">
                     <!-- Buttons set trough code in InitializeButtons() -->
                 </UniformGrid>
             </StackPanel>
         </Grid>
-        <UserControls:TutorialMedia x:Name="ucTutorialScreen" Grid.RowSpan="2" Margin="0 0 0 70"/>
+
+        <Border x:Name="BdCover" Margin="552 0 0 95" Grid.RowSpan="2" Visibility="Collapsed"
+                Width="{StaticResource timerBarLength}" Height="65"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Background="{StaticResource BackgroundScreenActive}"/>
+
+        <UserControls:TutorialMedia x:Name="ucTutorialScreen" Grid.RowSpan="2" Margin="0 0 0 70" Visibility="Collapsed"/>
+        <UserControls:ConfirmationPrompt x:Name="ucConfirmBackPrompt" Grid.RowSpan="2" Margin="0 -150 0 0" Visibility="Collapsed"/>
+        <UserControls:GameSettings x:Name="ucGameSettings" Grid.RowSpan="2" Visibility="Collapsed"/>
     </Grid>
 </Page>

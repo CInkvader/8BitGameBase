@@ -28,24 +28,37 @@ namespace _8BitGameBase.View.Screens
 
             InitializeComponent();
             LeaderboardManager.InitializeLeaderboard();
+            ucGameSettings.BtnSettingsBack.Click += BtnSettingsBack_Click;
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             MainWindow.ChangeScreen(new DifficultySelection(this));
         }
         private void BtnLeaderboard_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             MainWindow.ChangeScreen(new Leaderboard(this));
-        }
-        private void BtnOptions_Click(object sender, RoutedEventArgs e)
-        {
-
         }
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.PlayButtonSound();
             Window parentWindow = Window.GetWindow(this);
             parentWindow?.Close();
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            StpMenu.Visibility = Visibility.Collapsed;
+            ucGameSettings.Visibility = Visibility.Visible;
+        }
+        private void BtnSettingsBack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.PlayButtonSound();
+            ucGameSettings.Visibility = Visibility.Collapsed;
+            StpMenu.Visibility = Visibility.Visible;
         }
     }
 }
