@@ -46,7 +46,7 @@
             <MediaElement x:Name="CRT" LoadedBehavior="Manual" Opacity="0" Stretch="UniformToFill"
                           MediaEnded="CRT_MediaEnded" IsHitTestVisible="False"/>
 
-            <Image Source="Media/Images/GameBackground_Main.png" Stretch="UniformToFill"
+            <Image Source="pack://application:,,,/Media/Images/GameBackground_Main.png" Stretch="UniformToFill"
                    HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
         </Grid>
 

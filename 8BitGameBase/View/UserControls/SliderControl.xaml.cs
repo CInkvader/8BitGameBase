@@ -10,10 +10,10 @@ namespace _8BitGameBase.View.UserControls
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private Uri? _volumeEnabledPath = null;
-        private Uri? _volumeDisabledPath = null;
+        private static readonly Uri _volumeEnabledPath = new("pack://application:,,,/Media/Images/VolumeEnabled.png");
+        private static readonly Uri _volumeDisabledPath = new("pack://application:,,,/Media/Images/VolumeDisabled.png");
 
-        private Uri? _volumeIconSource = null;
+        private static Uri? _volumeIconSource = null;
         public Uri? VolumeIconSource
         {
             get { return _volumeIconSource; }
@@ -40,11 +40,9 @@ namespace _8BitGameBase.View.UserControls
         public SliderControl()
         {
             DataContext = this;
-            InitializeComponent();
-
-            _volumeEnabledPath = new Uri("pack://application:,,,/Media/Images/VolumeEnabled.png");
-            _volumeDisabledPath = new Uri("pack://application:,,,/Media/Images/VolumeDisabled.png");
             VolumeIconSource = _volumeEnabledPath;
+
+            InitializeComponent();
         }
         private void CheckValue(double value)
         {
@@ -72,7 +70,6 @@ namespace _8BitGameBase.View.UserControls
                 SliderValue = _previousVolume;
             }
         }
-
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

@@ -104,14 +104,23 @@ namespace _8BitGameBase.View.Screens
         {
             for (int i = 0, j = 128; i < 8; ++i)
             {
-                BitButton button = new BitButton();
+                BitButton button = new BitButton
+                {
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                    Margin = new Thickness(0, 0, 0, 400)
+                };
+
+                button.BtnBit.Click += BtnBitClicked;
+                button.BtnBit.MouseEnter += BtnBitMouseEnter;
+                button.BtnBit.MouseLeave += BtnBitMouseLeave;
+                button.BitValue = (j /= i == 0 ? 1 : 2);
+
+                if (_selectedDifficulty == 4) // EXTREME DIFFICULTY
+                {
+                    button.stpDecimalValue.Visibility = Visibility.Hidden;
+                }
+
                 _buttons.Add(button);
-                _buttons[i].VerticalAlignment = VerticalAlignment.Bottom;
-                _buttons[i].Margin = new Thickness(0,0,0,400);
-                _buttons[i].BtnBit.Click += BtnBitClicked;
-                _buttons[i].BtnBit.MouseEnter += BtnBitMouseEnter;
-                _buttons[i].BtnBit.MouseLeave += BtnBitMouseLeave;
-                _buttons[i].BitValue = (j /= i == 0 ? 1 : 2);
 
                 ugButtons.Children.Add(button);
             }
@@ -262,7 +271,7 @@ namespace _8BitGameBase.View.Screens
 
             _timer.Start();
             TimerBarPlayAnimation();
-            if (_selectedDifficulty >= 3)
+            if (_selectedDifficulty == 3)
             {
                 foreach (BitButton button in _buttons)
                 {
@@ -337,7 +346,7 @@ namespace _8BitGameBase.View.Screens
         }
         private void SetGameLoseMedia()
         {
-            if (_selectedDifficulty >= 3)
+            if (_selectedDifficulty == 3)
             {
                 foreach (BitButton button in _buttons)
                 {

@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RootNamespace>_8BitGameBase</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>8BitIco.ico</ApplicationIcon>
+    <StartupObject>_8BitGameBase.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,10 +36,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Media\Images\GameBackground_Main.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Media\Images\Tutorial.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Media\Images\VolumeDisabled.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -45,6 +47,7 @@
     <Resource Include="Media\Images\VolumeEnabled.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="8BitIco.ico" />
     <Content Include="Media\Sounds\BGM\MainMenu_Jungle.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
