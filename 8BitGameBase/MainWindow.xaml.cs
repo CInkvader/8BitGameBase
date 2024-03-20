@@ -121,18 +121,21 @@ namespace _8BitGameBase
 
                 _buttonSounds[i].Open(_buttonClickSoundPath);
                 _buttonSounds[i].MediaEnded += Sound_MediaEnded;
+                _buttonSounds[i].ScrubbingEnabled = false;
             }
         }
 
         public static void PlayButtonSound()
         {
             _buttonSounds[0].Play();
+
             double volume = _buttonSounds[0].Volume;
             _buttonSounds.RemoveAt(0);
 
-            MediaPlayer newSound = new MediaPlayer();
+            MediaPlayer newSound = new();
             newSound.Open(_buttonClickSoundPath);
             newSound.Volume = volume;
+            newSound.ScrubbingEnabled = false;
             newSound.MediaEnded += Sound_MediaEnded;
             _buttonSounds.Add(newSound);
         }

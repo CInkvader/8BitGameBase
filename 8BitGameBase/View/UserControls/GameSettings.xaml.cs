@@ -17,6 +17,8 @@ namespace _8BitGameBase.View.UserControls
 {
     public partial class GameSettings : UserControl
     {
+        public static event Action<GameSettings>? SliderValuesChanged;
+
         private List<SliderControl> _volumeSliders = new();
         private double _masterVolume = 0.5;
         private static double[] _sliderValues = [];
@@ -49,6 +51,15 @@ namespace _8BitGameBase.View.UserControls
             sldUIVolume.SliderText = "UI  VOLUME";
 
             SetVolume();
+            SliderValuesChanged += GameSettings_SliderValuesChanged;
+        }
+        private void GameSettings_SliderValuesChanged(GameSettings instance)
+        {
+            int i = 0;
+            foreach (SliderControl slider in _volumeSliders)
+            {
+                slider.VolumeSlider.Value = _sliderValues[i++];
+            }
         }
         public static void SetSliderValues(double[] values)
         {
@@ -118,6 +129,7 @@ namespace _8BitGameBase.View.UserControls
                     UIVolume_Change();
                     break;
             }
+            SliderValuesChanged?.Invoke(this);
         }
     }
 }
