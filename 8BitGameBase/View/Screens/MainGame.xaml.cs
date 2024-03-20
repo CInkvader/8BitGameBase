@@ -117,7 +117,10 @@ namespace _8BitGameBase.View.Screens
 
                 if (_selectedDifficulty == 4) // EXTREME DIFFICULTY
                 {
-                    button.stpDecimalValue.Visibility = Visibility.Hidden;
+                    button.stpDecimalValue.Visibility = Visibility.Collapsed;
+                    Thickness newMargin = button.Margin;
+                    newMargin.Bottom += 30;
+                    button.Margin = newMargin;
                 }
 
                 _buttons.Add(button);
