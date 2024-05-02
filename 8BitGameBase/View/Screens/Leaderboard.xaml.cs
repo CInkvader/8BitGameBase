@@ -21,7 +21,7 @@ namespace _8BitGameBase.View.Screens
     public partial class Leaderboard : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        
         private object? _previousPage = null;
         private int _difficultyView = 0;
 
